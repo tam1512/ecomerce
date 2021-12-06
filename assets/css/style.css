@@ -337,6 +337,12 @@ html {
   width: 100%;
 }
 
+.login-title,
+.register-title {
+  text-decoration: none;
+  color: inherit;
+}
+
 .down-icon {
   margin: 0 8px 0 4px;
   position: absolute;
@@ -405,14 +411,23 @@ html {
   display: inline-block;
 }
 
-/* Content */
-.content {
+/* register, login */
+.view {
+  background-image: linear-gradient(to bottom right, #003953, #a7e688);
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+}
+.view2 {
+  background-image: linear-gradient(to bottom right, #003953, #a7e688);
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
 }
 
-.product,
-.content-product-detail {
-  /* margin-top: 100px; */
-}
+/* Content */
 
 .product-item {
   position: relative;
@@ -489,7 +504,7 @@ html {
 
 /* Footer */
 .footer {
-  margin-top: 100px;
+  /* margin-top: 100px; */
   background-color: #032c48;
   width: 100%;
   color: white;
@@ -606,10 +621,6 @@ html {
 
 /* Category */
 
-.content-category {
-  /* margin-top: 160px; */
-}
-
 .header-content {
   margin-top: 50px;
   display: flex;
@@ -669,12 +680,13 @@ html {
 /* List product of category */
 
 .list-product {
-  margin-top: 50px;
+  margin-top: 25px;
 }
 
 .filter {
   margin-top: 25px;
   padding: 20px;
+  height: 300px;
   background-color: rgb(249, 249, 249);
 }
 
@@ -950,11 +962,10 @@ html {
 }
 
 /* cart */
-.content-card {
-}
 
 .wrap-cart-list {
   position: relative;
+  margin-bottom: 100px;
 }
 
 .content-card h2 {
@@ -1103,4 +1114,58 @@ html {
 }
 .cart-btn-buy-cart:hover {
   opacity: 0.9;
+}
+
+/* pagination */
+
+.home-product__pagination {
+  margin: 48px 0 32px 0;
+  padding: 0;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style-type: none;
+}
+
+.pagination-item {
+  margin: 0 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.pagination-item--active .pagination-item__link {
+  background-color: #003953;
+  color: white;
+}
+
+.pagination-item--active .pagination-item__link:hover {
+  opacity: 0.9;
+}
+
+.pagination-item__link {
+  display: block;
+  position: relative;
+  min-width: 40px;
+  height: 30px;
+  line-height: 30px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #939393;
+  text-align: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.pagination-item:not(:nth-last-child(3)):hover {
+  background-color: #003953;
+}
+
+.pagination-item:not(:nth-last-child(3)):hover .pagination-item__link {
+  color: white;
+}
+
+.content-category .Recently-viewed-items {
+  margin-top: 50px !important;
+  margin-bottom: 100px;
 }

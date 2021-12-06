@@ -5,7 +5,10 @@
    <meta charset="UTF-8" />
    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   <title>Trang chủ</title>
+   <title>Giỏ hàng</title>
+   <link rel="icon"
+      href="https://m.media-amazon.com/images/G/01/Zappos/MysteryDeals2021/2021-ZAPPOS-HOLIDAY-HEADER-LOGO.svg"
+      type="image/x-icon" />
    <link rel="stylesheet" href="assets/fonts/fontawesome-free-5.15.4-web/css/all.css" />
    <link rel="stylesheet" href="assets/fonts/icons-1.5.0/font/bootstrap-icons.css" />
    <link rel="stylesheet" href="assets/css/grid.css" />
@@ -159,7 +162,7 @@
                Mua hàng
             </span>
          </div>
-         <div class="Recently-viewed-items">
+         <div class="Recently-viewed-items grid wide">
             <h1>Sản phẩm đã xem</h1>
             <div class="row">
                <div class=" col l-2-4">

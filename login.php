@@ -1,22 +1,30 @@
+<?php 
+require_once 'controller/authController.php';
+?>
+
 <!doctype html>
 <html>
 
 <head>
    <meta charset="utf-8">
-   <title><?php echo $title ?></title>
+   <title>Đăng nhập</title>
    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="icon"
+      href="https://m.media-amazon.com/images/G/01/Zappos/MysteryDeals2021/2021-ZAPPOS-HOLIDAY-HEADER-LOGO.svg"
+      type="image/x-icon" />
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
    <link rel="stylesheet" href="css/maincss.css">
+   <link rel="stylesheet" href="assets/fonts/fontawesome-free-5.15.4-web/css/all.css" />
+   <link rel="stylesheet" href="assets/fonts/icons-1.5.0/font/bootstrap-icons.css" />
+   <link rel="stylesheet" href="assets/css/grid.css" />
+   <link rel="stylesheet" href="assets/css/style.css" />
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-   <style>
-   </style>
-
 </head>
 
 <body>
-
    <div class="wrapper">
+      <?php require_once 'view/header-account.php' ?>
       <div class="view2">
          <div class="container-fluid py-5">
             <div class="row" style="padding: 0">
@@ -34,6 +42,7 @@
                            <div class="col-sm-12">
                               <input type="text" class="form-control" id="username" name="username"
                                  placeholder="Hãy nhập Username">
+                              <small style="color: red"><?php echo $error;?></small>
                            </div>
                         </div>
                         <div class="form-group">
@@ -53,7 +62,7 @@
                      <hr class="hr-light my-4 wow fadeInDown" data-wow-delay="0.4s">
                      <div class="row" style="margin:auto">
                         <div class="col-sm-12 text-center">
-                           <p><a href="quen-mat-khau.php">Quên tài khoản?</a></p>
+                           <p><a href="quen-mat-khau.php">Quên mật khẩu?</a></p>
                         </div>
                         <div class="col-sm-12 text-center">
                            <p>Bạn chưa có tài khoản? Hãy <a href="register.php" class="linkgt">đăng kí</a> nhé!</a></p>
@@ -65,6 +74,7 @@
             </div>
          </div>
       </div>
+      <?php require_once 'view/footer.php' ?>
    </div>
 </body>
 

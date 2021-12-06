@@ -6,8 +6,11 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
    <title>Category</title>
-   <link rel="stylesheet" href="../f8-html-css/fonts/fontawesome-free-5.15.4-web/css/all.css" />
-   <link rel="stylesheet" href="../f8-html-css/fonts/icons-1.5.0/font/bootstrap-icons.css" />
+   <link rel="icon"
+      href="https://m.media-amazon.com/images/G/01/Zappos/MysteryDeals2021/2021-ZAPPOS-HOLIDAY-HEADER-LOGO.svg"
+      type="image/x-icon" />
+   <link rel="stylesheet" href="assets/fonts/icons-1.5.0/font/bootstrap-icons.css" />
+   <link rel="stylesheet" href="assets/honts/fontawesome-free-5.15.4-web/css/all.css" />
    <link rel="stylesheet" href="assets/css/grid.css" />
    <link rel="stylesheet" href="assets/css/style.css" />
 </head>
@@ -40,7 +43,7 @@
 
                </div>
             </div>
-            <div class="row">
+            <div class="row filter-detail">
                <div class="filter col l-2-4">
                   <span class="filter__title">Tìm Kiếm Chi Tiết</span>
                   <div class="filter__brand">
@@ -796,8 +799,43 @@
                         </a>
                      </div>
                   </div>
+                  <ul class="pagination home-product__pagination">
+                     <li class="pagination-item">
+                        <a href="#" class="pagination-item__link">
+                           <i class="pagination-item__icon bi bi-chevron-left"></i>
+                        </a>
+                     </li>
+                     <li class="pagination-item pagination-item--active">
+                        <a href="#" class="pagination-item__link"> 1 </a>
+                     </li>
+                     <li class="pagination-item">
+                        <a href="#" class="pagination-item__link"> 2 </a>
+                     </li>
+                     <li class="pagination-item">
+                        <a href="#" class="pagination-item__link"> 3 </a>
+                     </li>
+                     <li class="pagination-item">
+                        <a href="#" class="pagination-item__link"> 4 </a>
+                     </li>
+                     <li class="pagination-item">
+                        <a href="#" class="pagination-item__link"> 5 </a>
+                     </li>
+                     <li class="pagination-item">
+                        <a href="#" class="pagination-item__link"> ... </a>
+                     </li>
+                     <li class="pagination-item">
+                        <a href="#" class="pagination-item__link"> 14 </a>
+                     </li>
+                     <li class="pagination-item">
+                        <a href="#" class="pagination-item__link">
+                           <i class="pagination-item__icon bi bi-chevron-right"></i>
+                        </a>
+                     </li>
+                  </ul>
                </div>
             </div>
+
+
             <div class="Recently-viewed-items">
                <h1>Sản phẩm đã xem</h1>
                <div class="row">
