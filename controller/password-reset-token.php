@@ -27,7 +27,7 @@ if(isset($_GET['email']))
     $expDate = date("Y-m-d H:i:s",$expFormat);
 	$update = mysqli_query($conn,"UPDATE users set token='".$token."' ,exp_date='".$expDate."' WHERE Email='".$email."'");
     //$link = "<a href='localhost/mineinus/reset-password.php?key=".$email."&token=".$token."'>Click This</a>";
-	$link = "localhost/ecommerce/reset-password.php?key=".$email."&token=".$token."";
+	$link = "localhost/ecomerce/reset-password.php?key=".$email."&token=".$token."";
     $mail = new PHPMailer();
     $mail->CharSet =  "utf-8";                      //Enable verbose debug output
     $mail->isSMTP();                                            //Send using SMTP

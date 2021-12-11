@@ -233,13 +233,39 @@
             </ul>
          </li>
       </ul>
-      <ul class="nav__list">
-         <li class="nav-item">
-            <a href="login.php" class="login-title" style="color: inherit; text-decoration: none;"> Đăng Nhập </a>
-         </li>
-         <li class="nav-item">
-            <a href="register.php" class="register-title" style="color: inherit; text-decoration: none;"> Đăng Ký </a>
-         </li>
+      <ul class="nav__list" style="margin-right: 4%">
+      <?php if(!isset($_SESSION['Fullname'])) { ?>
+         <a href="login.php" class="login-title" style="color: inherit; text-decoration: none;"><li class="nav-item">      
+             Đăng Nhập                    
+         </li></a>
+         <a href="register.php" class="register-title" style="color: inherit; text-decoration: none;"><li class="nav-item">
+             Đăng Ký
+         </li></a>
+      <?php } ?>
+      <?php if(isset($_SESSION['Fullname'])) { ?>
+      <li class="nav-item">
+      Tài khoản của tôi
+        <ul class="clothing__list">
+               <li class="clothing__item"><b>Xin chào, <?php 
+               $parts = explode(" ", $_SESSION['Fullname']);
+               if(count($parts) > 1) {
+                   $lastname = array_pop($parts);
+                   $firstname = implode(" ", $parts);
+               }
+               else
+               {
+                   $firstname = $_SESSION['Fullname'];
+                   $lastname = " ";
+               }
+               echo $lastname; 
+               ?></b></li>
+               <li class="clothing__item"><a href="profile.php" class=item__link>Tổng quan tài khoản</a></li>
+               <li class="clothing__item"><a href="#" class=item__link>Xem đơn đặt hàng</a></li>
+               <li class="clothing__item"><a href="index.php?logout" class=item__link>Đăng xuất</a></li>
+        </ul>
+      </li>
+      <li class="nav-item"></li>
+      <?php } ?>            
       </ul>
    </div>
 </div>

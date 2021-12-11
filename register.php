@@ -9,6 +9,7 @@ require_once 'controller/authController.php';
    <meta charset="utf-8">
    <title>Đăng ký</title>
    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
    <link rel="icon"
       href="https://m.media-amazon.com/images/G/01/Zappos/MysteryDeals2021/2021-ZAPPOS-HOLIDAY-HEADER-LOGO.svg"
       type="image/x-icon" />
@@ -38,19 +39,11 @@ require_once 'controller/authController.php';
                      </div>
                      <form class="form-horizontal" action="register.php" method="post">
                         <div class="form-group">
-                           <label class="control-label col-sm-6">Username:</label>
+                           <label class="control-label col-sm-6">Email:</label>
                            <div class="col-sm-12">
-                              <input type="text" class="form-control" id="username" name="username"
-                                 placeholder="Hãy nhập username">
+                              <input type="text" class="form-control" id="email" name="email"
+                                 placeholder="Hãy nhập email">
                               <small style="color: red"><?php echo $error;?></small>
-                           </div>
-                        </div>
-                        <div class="form-group">
-                           <label class="control-label col-sm-6">Password: </label>
-                           <small style="color: red"><?php echo $error2;?></small>
-                           <div class="col-sm-12">
-                              <input type="password" class="form-control" id="password" name="password"
-                                 placeholder="Hãy nhập mật khẩu">
                            </div>
                         </div>
                         <div class="form-group">
@@ -60,7 +53,15 @@ require_once 'controller/authController.php';
                               <input type="text" class="form-control" id="fullname" name="fullname"
                                  placeholder="Hãy nhập họ và tên">
                            </div>
-                        </div>
+                        </div>                       
+                        <div class="form-group">
+                           <label class="control-label col-sm-6">Password: </label>
+                           <small style="color: red"><?php echo $error2;?></small>
+                           <div class="col-sm-12">
+                              <input type="password" class="form-control" id="password" name="password"
+                                 placeholder="Hãy nhập mật khẩu">
+                           </div>
+                        </div>                        
                         <div class="form-group">
                            <div class="col-sm-offset-2 col-sm-12" style="margin-top: 5%;">
                               <button type="submit" class="btn btn-primary w-100 py-2" name="register-btn">Đăng

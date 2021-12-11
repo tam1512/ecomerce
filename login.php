@@ -9,6 +9,7 @@ require_once 'controller/authController.php';
    <meta charset="utf-8">
    <title>Đăng nhập</title>
    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
    <link rel="icon"
       href="https://m.media-amazon.com/images/G/01/Zappos/MysteryDeals2021/2021-ZAPPOS-HOLIDAY-HEADER-LOGO.svg"
       type="image/x-icon" />
@@ -38,10 +39,10 @@ require_once 'controller/authController.php';
                      </div>
                      <form class="form-horizontal" action="login.php" method="post">
                         <div class="form-group">
-                           <label class="control-label col-sm-2">Username:</label>
+                           <label class="control-label col-sm-2">Email:</label>
                            <div class="col-sm-12">
-                              <input type="text" class="form-control" id="username" name="username"
-                                 placeholder="Hãy nhập Username">
+                              <input type="text" class="form-control" id="email" name="email"
+                                 placeholder="Hãy nhập Email">
                               <small style="color: red"><?php echo $error;?></small>
                            </div>
                         </div>

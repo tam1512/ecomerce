@@ -42,9 +42,6 @@ require_once 'controller/authController.php';
                               <small style="color:red"><?php echo $error?></small>
                            </div>
                            <div class="col-sm-12 py-2">
-                              <label for="Username">Hãy Nhập Username Của Bạn</label>
-                              <input type="text" name="username" class="form-control" id="username"
-                                 aria-describedby="emailHelp">
                               <small id="emailHelp" class="form-text text-muted">Chúng tôi sẽ không chia sẻ thông tin
                                  của bạn cho bất kì ai</small>
                            </div>

@@ -2,12 +2,12 @@
 
 class account
 {
-	public function getAccount($username,$conn)
+	public function getAccount($email,$conn)
 	{
 	$account = array();
-	$sql = "SELECT * FROM users WHERE Username=? LIMIT 1;";
+	$sql = "SELECT * FROM users WHERE Email=? LIMIT 1;";
 	$stmt = $conn->prepare($sql);
-	$stmt->bind_param('s', $username);
+	$stmt->bind_param('s', $email);
 	$stmt->execute();
 	$result = $stmt->get_result();
 	$user = $result->fetch_assoc();
@@ -18,24 +18,24 @@ class account
 		}
 	else 
 		{
-			$account = array("ID"=>$user['ID'],"Username"=>$user['Username'],"Password"=>$user['Password'],"Email"=>$user['Email'],"Fullname"=>$user['Fullname'],"Phonenumber"=>$user['Phonenumber'],"Shop"=>$user['Shop'],"regdate"=>$user['regdate'],"lastlogin"=>$user['lastlogin']);
+			$account = array("ID"=>$user['ID'],"Email"=>$user['Email'],"Password"=>$user['Password'],"Fullname"=>$user['Fullname'],"Phonenumber"=>$user['Phonenumber'],"regdate"=>$user['regdate'],"lastlogin"=>$user['lastlogin']);
 			return $account;
 		}
 	}
 	public function addAccount ($account,$conn)
 	{	
-		$sql = "SELECT * FROM users WHERE Username=? LIMIT 1;";
+		$sql = "SELECT * FROM users WHERE Email=? LIMIT 1;";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('s', $account['Username']);
+        $stmt->bind_param('s', $account['Email']);
         $stmt->execute();
         $result = $stmt->get_result();
         $row = mysqli_num_rows($result);
         $user = $result->fetch_assoc();
             if($row == 0)
 			{
-				$sqlinsert = "INSERT INTO users(Username,Password,Fullname,Shop,regdate) VALUES (?,?,?,?,?);";
+				$sqlinsert = "INSERT INTO users(Email,Password,Fullname,regdate) VALUES (?,?,?,?);";
 				$stmtinsert = $conn->prepare($sqlinsert);
-				$stmtinsert->bind_param('sssss',$account['Username'],$account['Password'],$account['Fullname'],$account['Username'],$account['regdate']);
+				$stmtinsert->bind_param('ssss',$account['Email'],$account['Password'],$account['Fullname'],$account['regdate']);
 				$stmtinsert->execute();  
 				return true;
             }
@@ -57,8 +57,8 @@ class account
 		}
 		return implode('', $pieces);
 	}
-	function checkPassword($username,$password,$conn) {
-	  $a=mysqli_query($conn,"SELECT Password FROM users WHERE Username = '$username'");
+	function checkPassword($email,$password,$conn) {
+	  $a=mysqli_query($conn,"SELECT Password FROM users WHERE Email = '$email'");
 	  if(mysqli_num_rows($a) == 1 ) {
 		$password_info=mysqli_fetch_array($a);
 		$sha_info = explode("$",$password_info[0]);
