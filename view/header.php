@@ -17,213 +17,72 @@
                My cart
             </span></a>
          <div class="cart-list">
-            <h1 class="cart-title">Gio hang</h1>
+            <h1 class="cart-title">Giỏ hàng</h1>
             <ul class="cart-list__product">
+            <?php 
+            if(isset($_SESSION['cart']))
+            {
+            $cartsize = sizeof($_SESSION['cart']);
+            for($i=0;$i<$cartsize;$i++)
+			{
+            ?>
+               <form method="post">
+               <input type="text" value="<?php echo $i ?>" name="removeid" hidden>
                <li class="cart-product-item">
-                  <img
-                     src="https://images.unsplash.com/photo-1622519407650-3df9883f76a5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzZ8fGZhc2hpb24lMjBtb2RlbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                     alt="San pham" class="cart-product-img">
+                  <img src="<?php echo $_SESSION['cart'][$i]['Image']?>" alt="Sản phẩm" class="cart-product-img">
                   <div class="content-product">
                      <div class="cart__product--header">
-                        <h5 class="content-product__name">ao thun</h5>
+                        <h5 class="content-product__name"><?php echo $_SESSION['cart'][$i]['Name']?></h5>
                         <div class="cart__product--value">
-                           <span class="cart__product--price">400.000đ</span>
+                           <span class="cart__product--price"><?php echo $_SESSION['cart'][$i]['Price']?>đ</span>
                            <span class="cart__product--multiply">x</span>
-                           <span class="cart__product--quantity">2</span>
+                           <span class="cart__product--quantity"><?php echo $_SESSION['cart'][$i]['Quantity']?></span>
                         </div>
                      </div>
                      <div class="cart__product--info">
-                        <span class="cart__product--brand">Gucci</span>
-                        <span class="cart__product--remove">Xóa</span>
+                        <span class="cart__product--brand"><?php echo $_SESSION['cart'][$i]['Brand']?></span>
+                        <button type="submit" class="btn btn-danger" name="remove-cart-btn">Xóa</button>
                      </div>
                   </div>
                </li>
-               <li class="cart-product-item">
-                  <img
-                     src="https://images.unsplash.com/photo-1622519407650-3df9883f76a5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzZ8fGZhc2hpb24lMjBtb2RlbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                     alt="San pham" class="cart-product-img">
-                  <div class="content-product">
-                     <div class="cart__product--header">
-                        <h5 class="content-product__name">ao thua thuong hang hang sieu bro vip gucci, lv, bla bla ,
-                           kahfas kaiwwef kiaf nd iafasjf w fjas</h5>
-                        <div class="cart__product--value">
-                           <span class="cart__product--price">400.000đ</span>
-                           <span class="cart__product--multiply">x</span>
-                           <span class="cart__product--quantity">2</span>
-                        </div>
-                     </div>
-                     <div class="cart__product--info">
-                        <span class="cart__product--brand">Gucci</span>
-                        <span class="cart__product--remove">Xóa</span>
-                     </div>
-                  </div>
-               </li>
-               <li class="cart-product-item">
-                  <img
-                     src="https://images.unsplash.com/photo-1622519407650-3df9883f76a5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzZ8fGZhc2hpb24lMjBtb2RlbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                     alt="San pham" class="cart-product-img">
-                  <div class="content-product">
-                     <div class="cart__product--header">
-                        <h5 class="content-product__name">ao thua thuong hang hang sieu bro vip gucci, lv, bla bla ,
-                           kahfas kaiwwef kiaf nd iafasjf w fjas</h5>
-                        <div class="cart__product--value">
-                           <span class="cart__product--price">400.000đ</span>
-                           <span class="cart__product--multiply">x</span>
-                           <span class="cart__product--quantity">2</span>
-                        </div>
-                     </div>
-                     <div class="cart__product--info">
-                        <span class="cart__product--brand">Gucci</span>
-                        <span class="cart__product--remove">Xóa</span>
-                     </div>
-                  </div>
-               </li>
-               <li class="cart-product-item">
-                  <img
-                     src="https://images.unsplash.com/photo-1622519407650-3df9883f76a5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzZ8fGZhc2hpb24lMjBtb2RlbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                     alt="San pham" class="cart-product-img">
-                  <div class="content-product">
-                     <div class="cart__product--header">
-                        <h5 class="content-product__name">ao thua thuong hang hang sieu bro vip gucci, lv, bla bla ,
-                           kahfas kaiwwef kiaf nd iafasjf w fjas</h5>
-                        <div class="cart__product--value">
-                           <span class="cart__product--price">400.000đ</span>
-                           <span class="cart__product--multiply">x</span>
-                           <span class="cart__product--quantity">2</span>
-                        </div>
-                     </div>
-                     <div class="cart__product--info">
-                        <span class="cart__product--brand">Gucci</span>
-                        <span class="cart__product--remove">Xóa</span>
-                     </div>
-                  </div>
-               </li>
-               <li class="cart-product-item">
-                  <img
-                     src="https://images.unsplash.com/photo-1622519407650-3df9883f76a5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzZ8fGZhc2hpb24lMjBtb2RlbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                     alt="San pham" class="cart-product-img">
-                  <div class="content-product">
-                     <div class="cart__product--header">
-                        <h5 class="content-product__name">ao thua thuong hang hang sieu bro vip gucci, lv, bla bla ,
-                           kahfas kaiwwef kiaf nd iafasjf w fjas</h5>
-                        <div class="cart__product--value">
-                           <span class="cart__product--price">400.000đ</span>
-                           <span class="cart__product--multiply">x</span>
-                           <span class="cart__product--quantity">2</span>
-                        </div>
-                     </div>
-                     <div class="cart__product--info">
-                        <span class="cart__product--brand">Gucci</span>
-                        <span class="cart__product--remove">Xóa</span>
-                     </div>
-                  </div>
-               </li>
-               <li class="cart-product-item">
-                  <img
-                     src="https://images.unsplash.com/photo-1622519407650-3df9883f76a5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzZ8fGZhc2hpb24lMjBtb2RlbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                     alt="San pham" class="cart-product-img">
-                  <div class="content-product">
-                     <div class="cart__product--header">
-                        <h5 class="content-product__name">ao thua thuong hang hang sieu bro vip gucci, lv, bla bla ,
-                           kahfas kaiwwef kiaf nd iafasjf w fjas</h5>
-                        <div class="cart__product--value">
-                           <span class="cart__product--price">400.000đ</span>
-                           <span class="cart__product--multiply">x</span>
-                           <span class="cart__product--quantity">2</span>
-                        </div>
-                     </div>
-                     <div class="cart__product--info">
-                        <span class="cart__product--brand">Gucci</span>
-                        <span class="cart__product--remove">Xóa</span>
-                     </div>
-                  </div>
-               </li>
-               <li class="cart-product-item">
-                  <img
-                     src="https://images.unsplash.com/photo-1622519407650-3df9883f76a5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzZ8fGZhc2hpb24lMjBtb2RlbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                     alt="San pham" class="cart-product-img">
-                  <div class="content-product">
-                     <div class="cart__product--header">
-                        <h5 class="content-product__name">ao thua thuong hang hang sieu bro vip gucci, lv, bla bla ,
-                           kahfas kaiwwef kiaf nd iafasjf w fjas</h5>
-                        <div class="cart__product--value">
-
-                           <span class="cart__product--price">400.000đ</span>
-                           <span class="cart__product--multiply">x</span>
-                           <span class="cart__product--quantity">2</span>
-                        </div>
-                     </div>
-                     <div class="cart__product--info">
-                        <span class="cart__product--brand">Gucci</span>
-                        <span class="cart__product--remove">Xóa</span>
-                     </div>
-                  </div>
-               </li>
-               <li class="cart-product-item">
-                  <img
-                     src="https://images.unsplash.com/photo-1622519407650-3df9883f76a5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzZ8fGZhc2hpb24lMjBtb2RlbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                     alt="San pham" class="cart-product-img">
-                  <div class="content-product">
-                     <div class="cart__product--header">
-                        <h5 class="content-product__name">ao thua thuong hang hang sieu bro vip gucci, lv, bla bla ,
-                           kahfas kaiwwef kiaf nd iafasjf w fjas</h5>
-                        <div class="cart__product--value">
-
-                           <span class="cart__product--price">400.000đ</span>
-                           <span class="cart__product--multiply">x</span>
-                           <span class="cart__product--quantity">2</span>
-                        </div>
-                     </div>
-                     <div class="cart__product--info">
-                        <span class="cart__product--brand">Gucci</span>
-                        <span class="cart__product--remove">Xóa</span>
-                     </div>
-                  </div>
-               </li>
+               </form>
+             <?php 
+                }
+             } 
+             if(!isset($_SESSION['cart'])) 
+             { ?>
+                <li>Giỏ hàng trống</li>
+             <?php } ?>
             </ul>
-            <a href="giohang.php" class="view-cart-btn">Xem gio hang</a>
+            <a href="giohang.php" class="view-cart-btn">Xem giỏ hàng</a>
          </div>
       </div>
    </div>
    <div class="header__bottom">
       <ul class="nav__list">
-         <li class="nav-item">
-            <span> Quần</span>
-            <ul class="clothing__list">
-               <li class="clothing__item"><a href="category.php" class=item__link>Quần jeans</a></li>
-               <li class="clothing__item"><a href="#" class=item__link>Quần Bó</a></li>
-               <li class="clothing__item"><a href="#" class=item__link>Quần Jockger</a></li>
-               <li class="clothing__item"><a href="#" class=item__link>Quần Sort</a></li>
-            </ul>
-         </li>
-         <li class="nav-item">
-            <span> Áo </span>
-            <ul class="clothing__list">
-               <li class="clothing__item"><a href="#" class=item__link>Quần jeans</a></li>
-               <li class="clothing__item"><a href="#" class=item__link>Quần Bó</a></li>
-               <li class="clothing__item"><a href="#" class=item__link>Quần Jockger</a></li>
-               <li class="clothing__item"><a href="#" class=item__link>Quần Sort</a></li>
-            </ul>
-         </li>
-         <li class="nav-item">
-            <span> Giày </span>
-            <ul class="clothing__list">
-               <li class="clothing__item"><a href="#" class=item__link>Quần jeans</a></li>
-               <li class="clothing__item"><a href="#" class=item__link>Quần Bó</a></li>
-               <li class="clothing__item"><a href="#" class=item__link>Quần Jockger</a></li>
-               <li class="clothing__item"><a href="#" class=item__link>Quần Sort</a></li>
-            </ul>
-         </li>
-         <li class="nav-item">
-            <span> Dép </span>
-            <ul class="clothing__list">
-               <li class="clothing__item"><a href="#" class=item__link>Quần jeans</a></li>
-               <li class="clothing__item"><a href="#" class=item__link>Quần Bó</a></li>
-               <li class="clothing__item"><a href="#" class=item__link>Quần Jockger</a></li>
-               <li class="clothing__item"><a href="#" class=item__link>Quần Sort</a></li>
-            </ul>
-         </li>
-         <li class="nav-item">
+         <?php 
+            $classcategory = new category();
+            $arraycategory = $classcategory->getAll($conn);
+            for($i=1;$i<=sizeof($arraycategory);$i++)
+            { 
+            ?>
+            <li class="nav-item">
+                <span><a href="category.php?filter=<?php echo $arraycategory[$i]['Filter']?>" style="color:black;text-decoration:none"><?php echo $arraycategory[$i]['Name']?></a></span>
+                <ul class="clothing__list">
+                <?php 
+                $arraydetailcategory = $classcategory->getAllDetail($conn,$i);
+                for($j=1;$j<=sizeof($arraydetailcategory);$j++)
+                {
+                ?>
+                   <li class="clothing__item"><a href="category.php?filter=<?php echo $arraydetailcategory[$j]['Filter']?>" class=item__link><?php echo $arraydetailcategory[$j]['Name']?></a></li>
+                <?php } ?>
+                </ul>
+             </li>
+            <?php 
+            } 
+            ?>
+        <!--         
+        <li class="nav-item">
             <span> Gợi Ý Mua Hàng </span>
             <ul class="clothing__list">
                <li class="clothing__item"><a href="#" class=item__link>Quần jeans</a></li>
@@ -232,6 +91,7 @@
                <li class="clothing__item"><a href="#" class=item__link>Quần Sort</a></li>
             </ul>
          </li>
+         -->
       </ul>
       <ul class="nav__list" style="margin-right: 4%">
       <?php if(!isset($_SESSION['Fullname'])) { ?>

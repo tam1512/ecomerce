@@ -95,6 +95,7 @@ if(isset($_GET['logout']))
 		unset($_SESSION['Phonenumber']);
 		unset($_SESSION['regdate']);
 		unset($_SESSION['lastlogin']);
+        unset($_SESSION['cart']);
         header('location: index.php');
         exit();
     }
@@ -166,7 +167,7 @@ if(isset($_GET['logout']))
         }
 	}
     
-	if(isset($_POST['password-reset-btn'])){
+if(isset($_POST['password-reset-btn'])){
         $email = $_POST['email'];
         $sql = "SELECT * FROM users WHERE Email=?  LIMIT 1";
         $stmt = $conn->prepare($sql);
@@ -185,7 +186,7 @@ if(isset($_GET['logout']))
                 $error="*Email không đúng!!";
             }            
     }    
-	if(isset($_POST['new-password'])){
+if(isset($_POST['new-password'])){
 		$email = $_POST['email'];
 		$reset_link_token = $_POST['reset_link_token'];
         $password = $_POST['password'];
@@ -201,4 +202,30 @@ if(isset($_GET['logout']))
                 header("location: reset-password.php?key=$email&token=$reset_link_token&alert=1");
             }            
     }  
+if(isset($_POST['comment-btn']))
+{
+    $IDProduct = $_POST['idproduct'];
+    $IDUser = $_POST['iduser'];
+    if(isset($_POST['rating']))
+    {
+    $rating = $_POST['rating'];
+    }
+    else 
+    {
+	echo "<script type='text/javascript'>alert('Bạn chưa đánh giá');</script>";
+    }
+    $comment = $_POST['comment'];
+    $timetoday = time();
+	if($IDProduct=='' || $IDUser=='' || $comment=='')
+	{
+		echo "<script type='text/javascript'>alert('Bạn chưa nhập đầy đủ thông tin');</script>";
+	}
+	else
+	{
+        $sqlcomment = "INSERT INTO comments(IDProduct, IDUser, Comments, Rating, Postdate) VALUES(?,?,?,?,?);";
+        $stmt = $conn->prepare($sqlcomment);
+        $stmt->bind_param('sssss',$IDProduct, $IDUser, $comment, $rating, $timetoday);
+        $stmt->execute();
+    } 
+}
 ?>

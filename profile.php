@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php require_once("controller/authController.php"); ?>
+<?php 
+require_once("controller/authController.php"); 
+require_once("class/category.php");
+?>
 <head>
    <meta charset="UTF-8" />
    <meta http-equiv="X-UA-Compatible" content="IE=edge" />

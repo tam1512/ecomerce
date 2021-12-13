@@ -22,6 +22,26 @@ class account
 			return $account;
 		}
 	}
+	public function getAccountByID($conn, $id)
+	{
+	$account = array();
+	$sql = "SELECT * FROM users WHERE ID=? LIMIT 1;";
+	$stmt = $conn->prepare($sql);
+	$stmt->bind_param('s', $id);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	$user = $result->fetch_assoc();
+	$row = $result->num_rows;
+	if($row==0)
+		{
+			return false;
+		}
+	else 
+		{
+			$account = array("ID"=>$user['ID'],"Email"=>$user['Email'],"Password"=>$user['Password'],"Fullname"=>$user['Fullname'],"Phonenumber"=>$user['Phonenumber'],"regdate"=>$user['regdate'],"lastlogin"=>$user['lastlogin']);
+			return $account;
+		}
+	}
 	public function addAccount ($account,$conn)
 	{	
 		$sql = "SELECT * FROM users WHERE Email=? LIMIT 1;";
@@ -94,6 +114,12 @@ class account
 		$unixtime_to_date = date('D, \N\g\à\y d \T\h\á\n\g M \N\ă\m Y ,H \G\i\ờ i \P\h\ú\t', $datechange);
 		$time = str_replace( $timeEng, $timeVie, $unixtime_to_date);
 		return $time;
+	}
+	function converttimedate($date)
+	{
+		$datechange = $date;
+		$unixtime_to_date = date('d/m/Y', $datechange);
+		return $unixtime_to_date;
 	}
 	function checkPhoneNumber($phonenumber)
 	{

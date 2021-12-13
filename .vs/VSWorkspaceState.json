@@ -5,10 +5,9 @@
     "\\assets\\css",
     "\\assets\\img",
     "\\assets\\img\\background",
-    "\\controller",
-    "\\controller\\class",
-    "\\view"
+    "\\class",
+    "\\controller\\class"
   ],
-  "SelectedNode": "\\password-reset-token-submit.php",
+  "SelectedNode": "\\product-detail.php",
   "PreviewInSolutionExplorer": false
 }
