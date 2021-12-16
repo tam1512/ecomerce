@@ -1,6 +1,10 @@
 <!doctype html>
 <?php 
-require_once 'controller/authController.php';
+require_once("controller/authController.php");
+require_once("class/category.php");
+require_once("class/product.php");
+require_once("class/cart.php");
+require_once("class/order.php");
 ?>
 <html lang="en">
 

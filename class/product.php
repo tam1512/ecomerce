@@ -22,6 +22,30 @@ class product
 			$array[$count]['IDDetailCategory'] = $row['IDDetailCategory'];
 			$array[$count]['IDSale'] = $row['IDSale'];
 			$array[$count]['newArrival'] = $row['newArrival'];	
+			$array[$count]['Sold'] = $row['Sold'];	
+			$count++;
+		}  
+		return $array;
+	}
+	public function getAllDescend ($conn)
+	{
+		$sql = "SELECT * FROM product ORDER BY Sold DESC;";
+		$stmt = $conn->prepare($sql);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$array = array();
+		$count = 1;
+		while ($row = $result->fetch_assoc())
+		{	
+			$array[$count]['ID'] = $row['ID'];
+			$array[$count]['Name'] = $row['Name'];	
+			$array[$count]['Price'] = $row['Price'];
+			$array[$count]['Description'] = $row['Description'];
+			$array[$count]['IDCategory'] = $row['IDCategory'];	
+			$array[$count]['IDDetailCategory'] = $row['IDDetailCategory'];
+			$array[$count]['IDSale'] = $row['IDSale'];
+			$array[$count]['newArrival'] = $row['newArrival'];	
+			$array[$count]['Sold'] = $row['Sold'];	
 			$count++;
 		}  
 		return $array;
@@ -64,6 +88,7 @@ class product
 			$array['IDDetailCategory'] = $row['IDDetailCategory'];
 			$array['IDSale'] = $row['IDSale'];
 			$array['newArrival'] = $row['newArrival'];	
+			$array['Sold'] = $row['Sold'];
 		}  
 		return $array;
 	}
@@ -95,20 +120,24 @@ class product
 		$stmt->bind_param('s',$id);
 		$stmt->execute();
 		$result = $stmt->get_result();
+		$rownum = mysqli_num_rows($result);
 		$s=0;
 		$count=0;
-		while ($row = $result->fetch_assoc())
-		{	
-			$rate = $row['Rating'];
-			$s=$s+$rate;
-			$count++;
-		}  
-		$total = $s/$count;
-		return $total;
+		if($rownum != 0)
+		{
+			while ($row = $result->fetch_assoc())
+			{	
+				$rate = $row['Rating'];
+				$s=$s+$rate;
+				$count++;
+			}  
+			$total = $s/$count;
+			return $total;
+		}	
 	}
 	public function getSize ($conn, $id)
 	{
-		$sql = "SELECT * FROM category_size WHERE IDCategory=?;";
+		$sql = "SELECT * FROM detail_product_size_quantity WHERE IDDetailProduct=?;";
 		$stmt = $conn->prepare($sql);
 		$stmt->bind_param('s',$id);
 		$stmt->execute();
@@ -118,11 +147,29 @@ class product
 		while ($row = $result->fetch_assoc())
 		{	
 			$array[$count]['ID'] = $row['ID'];
-			$array[$count]['IDCategory'] = $row['IDCategory'];	
-			$array[$count]['Name'] = $row['Name'];;
+			$array[$count]['Size'] = $row['Size'];	
+			$array[$count]['IDDetailProduct'] = $row['IDDetailProduct'];;
 			$count++;
 		}  
 		return $array;
+	}
+	public function getSizeQuantity ($conn, $id, $size)
+	{
+		$sqlcheckamount = "SELECT * FROM detail_product_size_quantity WHERE IDDetailProduct=? AND Size=? LIMIT 1";
+		$stmt = $conn->prepare($sqlcheckamount);
+		$stmt->bind_param('ss',$id,$size);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$row = $result->fetch_assoc();
+		$array = array();
+		if($row['Quantity']==0)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 }
 

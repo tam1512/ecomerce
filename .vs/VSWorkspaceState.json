@@ -2,12 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\assets",
-    "\\assets\\css",
     "\\assets\\img",
     "\\assets\\img\\background",
+    "\\assets\\img\\product",
+    "\\assets\\js",
     "\\class",
-    "\\controller\\class"
+    "\\controller",
+    "\\controller\\class",
+    "\\view"
   ],
-  "SelectedNode": "\\product-detail.php",
+  "SelectedNode": "\\order-list.php",
   "PreviewInSolutionExplorer": false
 }

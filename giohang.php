@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-require_once("controller/authController.php"); 
+require_once("controller/authController.php");
 require_once("class/category.php");
 require_once("class/product.php");
 require_once("class/cart.php");
+require_once("class/order.php");
 ?>
 <head>
    <meta charset="UTF-8" />
@@ -94,123 +95,45 @@ require_once("class/cart.php");
                     </div>
 
                     <hr>
-                    <button type="submit" class="btn btn-dark w-100 py-3">Mua hàng</button>
+                    <a href="thanh-toan.php" class="btn btn-dark w-100 py-3">Thanh toán</a>
                     <a href="index.php" class="btn w-100 py-3 my-2 border border-dark border-2">Tiếp tục mua hàng</a>
                 </div>
                 <?php } ?>
             </div>
-            </div>
-            
+            </div>            
          </div>
          <div class="Recently-viewed-items grid wide">
-            <h1>Sản phẩm đã xem</h1>
-            <div class="row">
-               <div class=" col l-2-4">
-                  <a href="#" class="product-item">
-                     <div class="wrap-img">
-                        <img
-                           src="https://images.unsplash.com/photo-1578681994506-b8f463449011?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzB8fGNsb3RoaW5nfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                           alt="product img" class="product-img">
-                     </div>
-                     <div class="product-like">
-                        <i class="far fa-heart"></i> <span>60</span>
-                        <!-- <i class="fas fa-heart"></i> -->
-                     </div>
-                     <div class="product-content">
-                        <div class="product-name">Áo khoác len</div>
-                        <div class="product-brand">Adidas</div>
-                        <div class="price">
-                           <span class="product-price">1.000.000đ</span>
-                           <span class="product-price-sale">650.000đ</span>
-                        </div>
-                     </div>
-                  </a>
-               </div>
-               <div class=" col l-2-4">
-                  <a href="#" class="product-item">
-                     <div class="wrap-img">
-                        <img
-                           src="https://images.unsplash.com/photo-1578681994506-b8f463449011?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzB8fGNsb3RoaW5nfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                           alt="product img" class="product-img">
-                     </div>
-                     <div class="product-like">
-                        <i class="far fa-heart"></i> <span>60</span>
-                        <!-- <i class="fas fa-heart"></i> -->
-                     </div>
-                     <div class="product-content">
-                        <div class="product-name">Áo khoác len</div>
-                        <div class="product-brand">Adidas</div>
-                        <div class="price">
-                           <span class="product-price">1.000.000đ</span>
-                           <span class="product-price-sale">650.000đ</span>
-                        </div>
-                     </div>
-                  </a>
-               </div>
-               <div class=" col l-2-4">
-                  <a href="#" class="product-item">
-                     <div class="wrap-img">
-                        <img
-                           src="https://images.unsplash.com/photo-1578681994506-b8f463449011?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzB8fGNsb3RoaW5nfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                           alt="product img" class="product-img">
-                     </div>
-                     <div class="product-like">
-                        <i class="far fa-heart"></i> <span>60</span>
-                        <!-- <i class="fas fa-heart"></i> -->
-                     </div>
-                     <div class="product-content">
-                        <div class="product-name">Áo khoác len</div>
-                        <div class="product-brand">Adidas</div>
-                        <div class="price">
-                           <span class="product-price">1.000.000đ</span>
-                           <span class="product-price-sale">650.000đ</span>
-                        </div>
-                     </div>
-                  </a>
-               </div>
-               <div class=" col l-2-4">
-                  <a href="#" class="product-item">
-                     <div class="wrap-img">
-                        <img
-                           src="https://images.unsplash.com/photo-1578681994506-b8f463449011?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzB8fGNsb3RoaW5nfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                           alt="product img" class="product-img">
-                     </div>
-                     <div class="product-like">
-                        <i class="far fa-heart"></i> <span>60</span>
-                        <!-- <i class="fas fa-heart"></i> -->
-                     </div>
-                     <div class="product-content">
-                        <div class="product-name">Áo khoác len</div>
-                        <div class="product-brand">Adidas</div>
-                        <div class="price">
-                           <span class="product-price">1.000.000đ</span>
-                           <span class="product-price-sale">650.000đ</span>
-                        </div>
-                     </div>
-                  </a>
-               </div>
-               <div class=" col l-2-4">
-                  <a href="#" class="product-item">
-                     <div class="wrap-img">
-                        <img
-                           src="https://images.unsplash.com/photo-1578681994506-b8f463449011?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzB8fGNsb3RoaW5nfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                           alt="product img" class="product-img">
-                     </div>
-                     <div class="product-like">
-                        <i class="far fa-heart"></i> <span>60</span>
-                        <!-- <i class="fas fa-heart"></i> -->
-                     </div>
-                     <div class="product-content">
-                        <div class="product-name">Áo khoác len</div>
-                        <div class="product-brand">Adidas</div>
-                        <div class="price">
-                           <span class="product-price">1.000.000đ</span>
-                           <span class="product-price-sale">650.000đ</span>
-                        </div>
-                     </div>
-                  </a>
-               </div>
-            </div>
+            <h1 class="my-4">Sản phẩm đã xem</h1>
+            <div class="row">       
+		      <?php if(isset($_SESSION['History']))
+		      $classproduct = new product();
+		      {
+			    for($i=0;$i<sizeof($_SESSION['History']);$i++)
+			    {
+			    $idhistory = $_SESSION['History'][$i]['ID'];
+			    $productarrayhistory = $classproduct->getByID($conn, $idhistory);
+			    $detailproductarrayhistory = $classproduct->getAllDetail($conn, $idhistory);
+			    ?>
+			     <div class=" col l-2-4">
+				    <a href="product-detail.php?product-id=<?php echo $productarrayhistory['ID'] ?>" class="product-item">
+				       <div class="wrap-img">
+					      <img src="<?php echo $detailproductarrayhistory['Image1']?>" alt="Product Image" class="product-img">
+				       </div>
+				       <div class="product-like">
+					      <i class="far fa-heart"></i> <span><?php echo  number_format($classproduct->getRating($conn, $productarrayhistory['ID']),1) ?></span>
+				       </div>
+				       <div class="product-content">
+					      <div class="product-name"><?php echo $productarrayhistory['Name'];?></div>
+					      <div class="product-brand"><?php echo $detailproductarrayhistory['Brand'];?></div>
+					      <div class="price">
+						     <span class="product-price">đ</span>
+						     <span class="product-price-sale"><?php echo number_format($productarrayhistory['Price']);?>đ</span>
+					      </div>
+				       </div>
+				    </a>
+			     </div>   
+		      <?php } } ?>
+		      </div>
          </div>
       </div>
 

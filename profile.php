@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php 
-require_once("controller/authController.php"); 
+require_once("controller/authController.php");
 require_once("class/category.php");
+require_once("class/product.php");
+require_once("class/cart.php");
+require_once("class/order.php"); 
 ?>
 <head>
    <meta charset="UTF-8" />
@@ -37,30 +40,56 @@ require_once("class/category.php");
           <div class="container-fluid border my-4">
             <h3 class="my-4">Thông Tin Tài Khoản Của Bạn</h3>
             <div class="row">
-                <div class="col col-4">
+                <div class="col col-6">
                 <h5>Tên, Email, Mật khẩu</h5>
                 <p><?php echo $_SESSION['Fullname']?><br>
                 <?php echo $_SESSION['Email']?><br>
                 **********</p>
                 <a href="" data-bs-toggle="modal" data-bs-target="#account-modal"><b>QUẢN LÝ THÔNG TIN TÀI KHOẢN</b></a>
                 </div>
-                <div class="col col-4">
+                <div class="col col-6">
                 <h5>Địa Chỉ Giao Hàng</h5>
 				<div class="row" id="address-list">
 				<!--ADDRESS LOAD AJAX -->
 				</div>
                 <a href="" data-bs-toggle="modal" data-bs-target="#address-modal"><b>THÊM ĐỊA CHỈ</b></a>
                 </div>
-                <div class="col col-4">
-                <h5>Phương Thức Thanh Toán</h5>
-                <p>Chưa có phương thức</p>
-                <a href=""><b>THÊM THẺ</b></a>
-                </div>
 				<div class="col-12 my-3"></div>
             </div>         
           </div>
-		  <h3>Lịch Sử Đặt Hàng</h3>
-		  <p>Lịch sử của bạn đang trống</p>
+		  <h3 class="my-4">Cách để trả hàng</h3>
+		  <img class="img-fluid" src="assets/img/product/returnitem.png">
+		  <h3 class="my-4">Sản phẩm đã xem</h3>
+		  <div class="row">       
+		  <?php if(isset($_SESSION['History']))
+		  $classproduct = new product();
+		  {
+			for($i=0;$i<sizeof($_SESSION['History']);$i++)
+			{
+			$idhistory = $_SESSION['History'][$i]['ID'];
+			$productarrayhistory = $classproduct->getByID($conn, $idhistory);
+			$detailproductarrayhistory = $classproduct->getAllDetail($conn, $idhistory);
+			?>
+			 <div class=" col l-2-4">
+				<a href="product-detail.php?product-id=<?php echo $productarrayhistory['ID'] ?>" class="product-item">
+				   <div class="wrap-img">
+					  <img src="<?php echo $detailproductarrayhistory['Image1']?>" alt="Product Image" class="product-img">
+				   </div>
+				   <div class="product-like">
+					  <i class="far fa-heart"></i> <span><?php echo  number_format($classproduct->getRating($conn, $productarrayhistory['ID']),1) ?></span>
+				   </div>
+				   <div class="product-content">
+					  <div class="product-name"><?php echo $productarrayhistory['Name'];?></div>
+					  <div class="product-brand"><?php echo $detailproductarrayhistory['Brand'];?></div>
+					  <div class="price">
+						 <span class="product-price">đ</span>
+						 <span class="product-price-sale"><?php echo number_format($productarrayhistory['Price']);?>đ</span>
+					  </div>
+				   </div>
+				</a>
+			 </div>   
+		  <?php } } ?>
+		  </div>
       </div>
       <?php require_once 'view/footer.php' ?>
    </div>

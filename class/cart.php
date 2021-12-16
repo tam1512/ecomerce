@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 header("Content-type: text/html; charset=utf-8");
 if(isset($_POST['cart-btn']))
 {
@@ -12,44 +12,54 @@ if(isset($_POST['cart-btn']))
 	if(!empty($_SESSION['cart']))
 	{
 		$cartsize = sizeof($_SESSION['cart']);
-		function test($conn,$IDProduct,$quantity,$size)
+		$check = 0;
+		for($i=0;$i<$cartsize;$i++)
 		{
-			$cartsize = sizeof($_SESSION['cart']);
-			for($i=0;$i<$cartsize;$i++)
+			if($_SESSION['cart'][$i]['IDProduct']==$IDProduct && $_SESSION['cart'][$i]['Size']==$size )
 			{
-				if($_SESSION['cart'][$i]['IDProduct']==$IDProduct && $_SESSION['cart'][$i]['Size']==$size )
+				$sqlcheckamount = "SELECT * FROM detail_product_size_quantity WHERE IDDetailProduct=? AND Size=? LIMIT 1";
+				$needcheck = $_SESSION['cart'][$i]['IDProduct'];
+				$stmt = $conn->prepare($sqlcheckamount);
+				$stmt->bind_param('ss',$needcheck,$size);
+				$stmt->execute();
+				$result = $stmt->get_result();
+				$row = $result->fetch_assoc();					
+				if($row['Quantity']<($_SESSION['cart'][$i]['Quantity']+$quantity) || $row['Quantity']==0)
+				{					
+				echo "<script type='text/javascript'>alert('Sản phẩm không đủ số lượng');</script>";
+				$check=1;
+				break;
+				}
+				else
 				{
-					$sqlcheckamount = "SELECT * FROM detail_product_size_quantity WHERE IDDetailProduct=? AND Size=? LIMIT 1";
-					$needcheck = $_SESSION['cart'][$i]['IDProduct'];
-					$stmt = $conn->prepare($sqlcheckamount);
-					$stmt->bind_param('ss',$needcheck,$size);
-					$stmt->execute();
-					$result = $stmt->get_result();
-					$row = $result->fetch_assoc();					
-					if($row['Quantity']==$_SESSION['cart'][$i]['Quantity'] || $row['Quantity']==0)
-					{
-					header("location: index.php?error=runout");
-					exit();	
-					}
-					else
-					{
-					$_SESSION['cart'][$i]['Quantity']+=$quantity;
-					return true;
-					break;
-					}
+				$_SESSION['cart'][$i]['Quantity']+=$quantity;
+				$check=1;
+				break;
 				}
 			}
-			return false;
 		}
-		if(test($conn,$IDProduct,$quantity,$size)==false)
+		if($check==0)
 		{
-			$_SESSION['cart'][$cartsize]=$cartarray;
-		}
+			$_SESSION['cart'][$cartsize]=$cartarray;			
+		}		
 	}
 	else
-	{		
-		$_SESSION['cart']=array();
-		$_SESSION['cart'][0]=$cartarray;
+	{	
+		$sqlcheckamount = "SELECT * FROM detail_product_size_quantity WHERE IDDetailProduct=? AND Size=? LIMIT 1";
+		$stmt = $conn->prepare($sqlcheckamount);
+		$stmt->bind_param('ss',$IDProduct,$size);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$row = $result->fetch_assoc();					
+		if($row['Quantity']<($quantity) || $row['Quantity']==0)
+		{		
+			echo "<script type='text/javascript'>alert('Sản phẩm không đủ số lượng');</script>";	
+		}
+		else
+		{
+			$_SESSION['cart']=array();
+			$_SESSION['cart'][0]=$cartarray;
+		}
 	}
 }
 if(isset($_POST['remove-cart-btn']))

@@ -3,7 +3,7 @@
 	header("Content-type: text/html; charset=utf-8");
     date_default_timezone_set('Asia/Ho_Chi_Minh');
 	require_once ("class/database.php"); 
-    require_once ("class/account.php");    
+    require_once ("class/account.php");
 	$todaytime = time();
 	$classconnection = new connection();
 	$conn = $classconnection->connect();
@@ -14,7 +14,7 @@
     $errorphonenumber = "";
 	$username = "";	
 	$title = "E-Commerce";
-    $classaccount = new account();
+    $classaccount = new account();    
 
 if(isset($_POST['login-btn'])){
     $email = $_POST['email'];
@@ -95,7 +95,8 @@ if(isset($_GET['logout']))
 		unset($_SESSION['Phonenumber']);
 		unset($_SESSION['regdate']);
 		unset($_SESSION['lastlogin']);
-        unset($_SESSION['cart']);
+        //unset($_SESSION['cart']);
+        //unset($_SESSION['History']);
         header('location: index.php');
         exit();
     }
@@ -227,5 +228,85 @@ if(isset($_POST['comment-btn']))
         $stmt->bind_param('sssss',$IDProduct, $IDUser, $comment, $rating, $timetoday);
         $stmt->execute();
     } 
+}
+if(isset($_GET['product-id']))
+{
+    $historyarray = array('ID' => $_GET['product-id']);
+    if(isset($_SESSION['History']))
+    {
+        $check=0;
+        $historysize = sizeof($_SESSION['History']);
+        for($i=0;$i<$historysize;$i++)
+        {
+            if($historyarray['ID']==$_SESSION['History'][$i]['ID'])
+            {
+                $check=1;
+            }
+        }
+        if($check==0)
+        {
+            $_SESSION['History'][$historysize] = $historyarray; 
+        }       
+    }
+    else
+    {
+        $_SESSION['History'][0] = $historyarray; 
+    }   
+}
+if(isset($_POST['checkout-btn']))
+{	
+    $classorder = new order();
+	$total=0;
+	$totalquantity=0;
+	for ($i=0; $i<sizeof($_SESSION['cart']); $i++)
+	{ 
+	$total = $total + $_SESSION['cart'][$i]['Quantity']*$_SESSION['cart'][$i]['Price'];
+	}
+    $total = $total+25000;
+    if(isset($_POST['addressdropdown']))
+    {
+        $addressarray = $classaccount->getAccountAddressByID($conn, $_POST['addressdropdown']);
+        $fullname = $addressarray['Fullname'];
+        $address = $addressarray['Address'];
+        $phonenumber = $addressarray['Phonenumber'];
+        $khachhang = $addressarray['IDUser'];
+    }
+    else
+    {
+        $fullname = $_POST['fullname'];    
+        $phonenumber = $_POST['phonenumber'];
+        if($classaccount->checkPhoneNumber($phonenumber))
+        {
+        $address = $_POST['address'];	        
+        $khachhang = "Unknown";
+        }
+        else
+        {
+        echo "<script type='text/javascript'>alert('Sai định dạng số điện thoại');</script>";
+        }  
+    }   
+	$email = $_POST['email']; 
+    $note = $_POST['note'];
+    $timetoday = time();
+    $shiptype = $_POST['shiptype'];	
+
+	$sqlcheckorderid = "SELECT * FROM orders;";
+	$stmt = $conn->prepare($sqlcheckorderid);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	$rowtoinsert = mysqli_num_rows($result)+1;
+
+    $order = array("ID"=>$rowtoinsert,"IDUser"=>$khachhang,"Fullname"=>$fullname,"Address"=>$address,"Email"=>$email,"Phonenumber"=>$phonenumber,"Total"=>$total,"Note"=>$note,"Orderdate"=>$timetoday,"Shiptype"=>$shiptype);
+	$insertdetailarray = array();
+	for($i=0;$i<sizeof($_SESSION['cart']);$i++)
+	{
+    $insertdetailarray[$i]['IDOrder'] = $rowtoinsert;
+	$insertdetailarray[$i]['IDProduct'] = $_SESSION['cart'][$i]['IDProduct'];
+    $insertdetailarray[$i]['Price'] = $_SESSION['cart'][$i]['Price'];
+	$insertdetailarray[$i]['Quantity'] = $_SESSION['cart'][$i]['Quantity'];
+	$insertdetailarray[$i]['Size'] = $_SESSION['cart'][$i]['Size'];    
+	}
+	$classorder->addOrder($order, $insertdetailarray,$conn);
+	unset($_SESSION['cart']);    
 }
 ?>

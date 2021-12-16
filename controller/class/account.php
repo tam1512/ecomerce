@@ -64,6 +64,44 @@ class account
                 return false;
             } 
 	}
+	public function getAccountAddress($conn, $id)
+	{
+		$sql = "SELECT * FROM address WHERE IDUser=?;";
+		$stmt = $conn->prepare($sql);
+		$stmt->bind_param('s',$id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$array = array();
+		$count=0;
+		while ($row = $result->fetch_assoc())
+		{	
+			$array[$count]['ID'] = $row['ID'];
+			$array[$count]['IDUser'] = $row['IDUser'];
+			$array[$count]['Fullname'] = $row['Fullname'];
+			$array[$count]['Address'] = $row['Address'];
+			$array[$count]['Phonenumber'] = $row['Phonenumber'];
+			$count++;
+		}  
+		return $array;
+	}
+	public function getAccountAddressByID($conn, $id)
+	{
+		$sql = "SELECT * FROM address WHERE ID=?;";
+		$stmt = $conn->prepare($sql);
+		$stmt->bind_param('s',$id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$array = array();
+		while ($row = $result->fetch_assoc())
+		{	
+			$array['ID'] = $row['ID'];
+			$array['IDUser'] = $row['IDUser'];
+			$array['Fullname'] = $row['Fullname'];
+			$array['Address'] = $row['Address'];
+			$array['Phonenumber'] = $row['Phonenumber'];
+		}  
+		return $array;
+	}
 
 	function getRandomString( int $length = 16, string $keyspace = '0123456789abcde'): string 
 	{

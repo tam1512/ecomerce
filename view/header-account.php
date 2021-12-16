@@ -12,176 +12,47 @@
          <div class="search__btn">SEARCH</div>
       </div>
       <div class="cart__btn ">
-         <a class="cart__link" href="#"><i class="fas fa-shopping-cart cart__icon"></i>
-            <span>
-               My cart
-            </span></a>
+         <a class="cart__link" href="giohang.php"><i class="fas fa-shopping-cart cart__icon"></i>
+            <span>Giỏ hàng</span></a>
          <div class="cart-list">
-            <h1 class="cart-title">Gio hang</h1>
+            <h1 class="cart-title">Giỏ hàng</h1>
             <ul class="cart-list__product">
+            <?php 
+            if(isset($_SESSION['cart']))
+            {
+            $cartsize = sizeof($_SESSION['cart']);
+            for($i=0;$i<$cartsize;$i++)
+			{
+            ?>
+               <form method="post">
+               <input type="text" value="<?php echo $i ?>" name="removeid" hidden>
                <li class="cart-product-item">
-                  <img
-                     src="https://images.unsplash.com/photo-1622519407650-3df9883f76a5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzZ8fGZhc2hpb24lMjBtb2RlbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                     alt="San pham" class="cart-product-img">
+                  <img src="<?php echo $_SESSION['cart'][$i]['Image']?>" alt="Sản phẩm" class="cart-product-img">
                   <div class="content-product">
                      <div class="cart__product--header">
-                        <h5 class="content-product__name">ao thun</h5>
+                        <h5 class="content-product__name"><?php echo $_SESSION['cart'][$i]['Name']?></h5>
                         <div class="cart__product--value">
-                           <span class="cart__product--price">400.000đ</span>
+                           <span class="cart__product--price"><?php echo number_format($_SESSION['cart'][$i]['Price'])?>đ</span>
                            <span class="cart__product--multiply">x</span>
-                           <span class="cart__product--quantity">2</span>
+                           <span class="cart__product--quantity"><?php echo $_SESSION['cart'][$i]['Quantity']?></span>
                         </div>
                      </div>
                      <div class="cart__product--info">
-                        <span class="cart__product--brand">Gucci</span>
-                        <span class="cart__product--remove">Xóa</span>
+                        <span class="cart__product--brand"><?php echo $_SESSION['cart'][$i]['Brand']?></span>
+                        <button type="submit" class="btn btn-danger" name="remove-cart-btn">Xóa</button>
                      </div>
                   </div>
                </li>
-               <li class="cart-product-item">
-                  <img
-                     src="https://images.unsplash.com/photo-1622519407650-3df9883f76a5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzZ8fGZhc2hpb24lMjBtb2RlbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                     alt="San pham" class="cart-product-img">
-                  <div class="content-product">
-                     <div class="cart__product--header">
-                        <h5 class="content-product__name">ao thua thuong hang hang sieu bro vip gucci, lv, bla bla ,
-                           kahfas kaiwwef kiaf nd iafasjf w fjas</h5>
-                        <div class="cart__product--value">
-                           <span class="cart__product--price">400.000đ</span>
-                           <span class="cart__product--multiply">x</span>
-                           <span class="cart__product--quantity">2</span>
-                        </div>
-                     </div>
-                     <div class="cart__product--info">
-                        <span class="cart__product--brand">Gucci</span>
-                        <span class="cart__product--remove">Xóa</span>
-                     </div>
-                  </div>
-               </li>
-               <li class="cart-product-item">
-                  <img
-                     src="https://images.unsplash.com/photo-1622519407650-3df9883f76a5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzZ8fGZhc2hpb24lMjBtb2RlbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                     alt="San pham" class="cart-product-img">
-                  <div class="content-product">
-                     <div class="cart__product--header">
-                        <h5 class="content-product__name">ao thua thuong hang hang sieu bro vip gucci, lv, bla bla ,
-                           kahfas kaiwwef kiaf nd iafasjf w fjas</h5>
-                        <div class="cart__product--value">
-                           <span class="cart__product--price">400.000đ</span>
-                           <span class="cart__product--multiply">x</span>
-                           <span class="cart__product--quantity">2</span>
-                        </div>
-                     </div>
-                     <div class="cart__product--info">
-                        <span class="cart__product--brand">Gucci</span>
-                        <span class="cart__product--remove">Xóa</span>
-                     </div>
-                  </div>
-               </li>
-               <li class="cart-product-item">
-                  <img
-                     src="https://images.unsplash.com/photo-1622519407650-3df9883f76a5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzZ8fGZhc2hpb24lMjBtb2RlbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                     alt="San pham" class="cart-product-img">
-                  <div class="content-product">
-                     <div class="cart__product--header">
-                        <h5 class="content-product__name">ao thua thuong hang hang sieu bro vip gucci, lv, bla bla ,
-                           kahfas kaiwwef kiaf nd iafasjf w fjas</h5>
-                        <div class="cart__product--value">
-                           <span class="cart__product--price">400.000đ</span>
-                           <span class="cart__product--multiply">x</span>
-                           <span class="cart__product--quantity">2</span>
-                        </div>
-                     </div>
-                     <div class="cart__product--info">
-                        <span class="cart__product--brand">Gucci</span>
-                        <span class="cart__product--remove">Xóa</span>
-                     </div>
-                  </div>
-               </li>
-               <li class="cart-product-item">
-                  <img
-                     src="https://images.unsplash.com/photo-1622519407650-3df9883f76a5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzZ8fGZhc2hpb24lMjBtb2RlbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                     alt="San pham" class="cart-product-img">
-                  <div class="content-product">
-                     <div class="cart__product--header">
-                        <h5 class="content-product__name">ao thua thuong hang hang sieu bro vip gucci, lv, bla bla ,
-                           kahfas kaiwwef kiaf nd iafasjf w fjas</h5>
-                        <div class="cart__product--value">
-                           <span class="cart__product--price">400.000đ</span>
-                           <span class="cart__product--multiply">x</span>
-                           <span class="cart__product--quantity">2</span>
-                        </div>
-                     </div>
-                     <div class="cart__product--info">
-                        <span class="cart__product--brand">Gucci</span>
-                        <span class="cart__product--remove">Xóa</span>
-                     </div>
-                  </div>
-               </li>
-               <li class="cart-product-item">
-                  <img
-                     src="https://images.unsplash.com/photo-1622519407650-3df9883f76a5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzZ8fGZhc2hpb24lMjBtb2RlbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                     alt="San pham" class="cart-product-img">
-                  <div class="content-product">
-                     <div class="cart__product--header">
-                        <h5 class="content-product__name">ao thua thuong hang hang sieu bro vip gucci, lv, bla bla ,
-                           kahfas kaiwwef kiaf nd iafasjf w fjas</h5>
-                        <div class="cart__product--value">
-                           <span class="cart__product--price">400.000đ</span>
-                           <span class="cart__product--multiply">x</span>
-                           <span class="cart__product--quantity">2</span>
-                        </div>
-                     </div>
-                     <div class="cart__product--info">
-                        <span class="cart__product--brand">Gucci</span>
-                        <span class="cart__product--remove">Xóa</span>
-                     </div>
-                  </div>
-               </li>
-               <li class="cart-product-item">
-                  <img
-                     src="https://images.unsplash.com/photo-1622519407650-3df9883f76a5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzZ8fGZhc2hpb24lMjBtb2RlbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                     alt="San pham" class="cart-product-img">
-                  <div class="content-product">
-                     <div class="cart__product--header">
-                        <h5 class="content-product__name">ao thua thuong hang hang sieu bro vip gucci, lv, bla bla ,
-                           kahfas kaiwwef kiaf nd iafasjf w fjas</h5>
-                        <div class="cart__product--value">
-
-                           <span class="cart__product--price">400.000đ</span>
-                           <span class="cart__product--multiply">x</span>
-                           <span class="cart__product--quantity">2</span>
-                        </div>
-                     </div>
-                     <div class="cart__product--info">
-                        <span class="cart__product--brand">Gucci</span>
-                        <span class="cart__product--remove">Xóa</span>
-                     </div>
-                  </div>
-               </li>
-               <li class="cart-product-item">
-                  <img
-                     src="https://images.unsplash.com/photo-1622519407650-3df9883f76a5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzZ8fGZhc2hpb24lMjBtb2RlbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                     alt="San pham" class="cart-product-img">
-                  <div class="content-product">
-                     <div class="cart__product--header">
-                        <h5 class="content-product__name">ao thua thuong hang hang sieu bro vip gucci, lv, bla bla ,
-                           kahfas kaiwwef kiaf nd iafasjf w fjas</h5>
-                        <div class="cart__product--value">
-
-                           <span class="cart__product--price">400.000đ</span>
-                           <span class="cart__product--multiply">x</span>
-                           <span class="cart__product--quantity">2</span>
-                        </div>
-                     </div>
-                     <div class="cart__product--info">
-                        <span class="cart__product--brand">Gucci</span>
-                        <span class="cart__product--remove">Xóa</span>
-                     </div>
-                  </div>
-               </li>
+               </form>
+             <?php 
+                }
+             } 
+             if(!isset($_SESSION['cart'])) 
+             { ?>
+                <li>Giỏ hàng trống</li>
+             <?php } ?>
             </ul>
-            <a href="giohang.php" class="view-cart-btn">Xem gio hang</a>
+            <a href="giohang.php" class="view-cart-btn">Xem giỏ hàng</a>
          </div>
       </div>
    </div>

@@ -12,10 +12,8 @@
          <div class="search__btn">SEARCH</div>
       </div>
       <div class="cart__btn ">
-         <a class="cart__link" href="#"><i class="fas fa-shopping-cart cart__icon"></i>
-            <span>
-               My cart
-            </span></a>
+         <a class="cart__link" href="giohang.php"><i class="fas fa-shopping-cart cart__icon"></i>
+            <span>Giỏ hàng</span></a>
          <div class="cart-list">
             <h1 class="cart-title">Giỏ hàng</h1>
             <ul class="cart-list__product">
@@ -34,7 +32,7 @@
                      <div class="cart__product--header">
                         <h5 class="content-product__name"><?php echo $_SESSION['cart'][$i]['Name']?></h5>
                         <div class="cart__product--value">
-                           <span class="cart__product--price"><?php echo $_SESSION['cart'][$i]['Price']?>đ</span>
+                           <span class="cart__product--price"><?php echo number_format($_SESSION['cart'][$i]['Price'])?>đ</span>
                            <span class="cart__product--multiply">x</span>
                            <span class="cart__product--quantity"><?php echo $_SESSION['cart'][$i]['Quantity']?></span>
                         </div>
@@ -120,7 +118,7 @@
                echo $lastname; 
                ?></b></li>
                <li class="clothing__item"><a href="profile.php" class=item__link>Tổng quan tài khoản</a></li>
-               <li class="clothing__item"><a href="#" class=item__link>Xem đơn đặt hàng</a></li>
+               <li class="clothing__item"><a href="order-list.php" class=item__link>Xem đơn đặt hàng</a></li>
                <li class="clothing__item"><a href="index.php?logout" class=item__link>Đăng xuất</a></li>
         </ul>
       </li>
