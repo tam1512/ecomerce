@@ -31,9 +31,18 @@ require_once("class/order.php");
       <?php require_once 'view/footer.php' ?>
    </div>
    <script src="assets/js/app.js"></script>
+   <script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        var scrollpos = sessionStorage.getItem('scrollpos');
+        if (scrollpos) {
+            window.scrollTo(0, scrollpos);
+            sessionStorage.removeItem('scrollpos');
+        }
+    });
+
+    window.addEventListener("beforeunload", function (e) {
+        sessionStorage.setItem('scrollpos', window.scrollY);
+    });
+   </script>
 </body>
-
 </html>
-
-
-<!-- MailerPHP -->

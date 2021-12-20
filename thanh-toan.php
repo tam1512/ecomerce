@@ -6,6 +6,11 @@ require_once("class/product.php");
 require_once("class/cart.php");
 require_once("class/order.php"); 
 require_once("controller/authController.php");
+if(!isset($_SESSION['cart']))
+{
+    header("location: index.php");
+    exit();
+}
 ?>
 <head>
    <meta charset="UTF-8" />
@@ -30,13 +35,13 @@ require_once("controller/authController.php");
       <div class="content-card">
          <div class="wrap-cart-list">
             <h2 class="my-4">Thanh toán</h2><hr>
-            <form method="post">
+            <form action="index.php" method="post">
             <div class="container">
             <div class="row">
                 <div class="col col-4">
                     <h4>Thông tin nhận hàng</h4>
                     <?php if(!isset($_SESSION['Fullname']))
-                    { ?>
+                    { ?>                       
                         <label for="email" class="form-label">Email</label>
                         <input type="email" id="email" name="email" class="form-control" required>
                         <label for="fullname" class="form-label my-2">Họ và tên</label>
@@ -50,7 +55,23 @@ require_once("controller/authController.php");
                     <?php
                     } 
                     else
-                    { ?>
+                    {
+                        if(!$classaccount->getAccountAddress($conn, $_SESSION['ID'])) 
+                        { ?>
+                            <input type="text" value="<?php echo $_SESSION['ID']?>" id="idhidden" name="idhidden" class="form-control" hidden>
+                            <label for="email"value="<?php echo $_SESSION['Email']?>" class="form-label">Email</label>
+                            <input type="email" value="<?php echo $_SESSION['Email']?>" id="email" name="email" class="form-control" required>
+                            <label for="fullname" class="form-label my-2">Họ và tên</label>
+                            <input type="text" value="<?php echo $_SESSION['Fullname']?>" id="fullname" name="fullname" class="form-control" required>
+                            <label for="phonenumber" class="form-label my-2">Số điện thoại</label>
+                            <input type="text" id="phonenumber" name="phonenumber" class="form-control" required>
+                            <label for="address" class="form-label my-2">Địa chỉ</label>
+                            <input type="text" id="address" name="address" class="form-control" required>
+                            <label for="note" class="form-label my-2">Ghi chú</label>
+                            <textarea class="form-control" id="note" name="note" rows="5" placeholder="Viết ghi chú"></textarea>
+                        <?php 
+                        } else {
+                        ?>
                         <label for="email" class="form-label">Email</label>
                         <input type="email" name="email" value="<?php echo $_SESSION['Email']?>" id="email" class="form-control" readonly>
                         <label for="addressdropdown" class="form-label my-2">Địa chỉ</label>
@@ -69,7 +90,7 @@ require_once("controller/authController.php");
                         <label for="note" class="form-label">Ghi chú</label>
                         <textarea class="form-control" id="note" name="note" rows="5" placeholder="Viết ghi chú"></textarea>
                     <?php
-                    }
+                    } }
                     ?>                   
                 </div>
                 <div class="col col-4">

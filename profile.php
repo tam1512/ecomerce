@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php 
-require_once("controller/authController.php");
 require_once("class/category.php");
 require_once("class/product.php");
 require_once("class/cart.php");
 require_once("class/order.php"); 
+require_once("controller/authController.php");
 ?>
 <head>
    <meta charset="UTF-8" />
@@ -40,20 +40,25 @@ require_once("class/order.php");
           <div class="container-fluid border my-4">
             <h3 class="my-4">Thông Tin Tài Khoản Của Bạn</h3>
             <div class="row">
-                <div class="col col-6">
+                <div class="col col-4">
                 <h5>Tên, Email, Mật khẩu</h5>
                 <p><?php echo $_SESSION['Fullname']?><br>
                 <?php echo $_SESSION['Email']?><br>
                 **********</p>
-                <a href="" data-bs-toggle="modal" data-bs-target="#account-modal"><b>QUẢN LÝ THÔNG TIN TÀI KHOẢN</b></a>
+                <a href="" data-bs-toggle="modal" data-bs-target="#account-modal"><b>QUẢN LÝ THÔNG TIN TÀI KHOẢN</b></a><br>
+				<a href="" data-bs-toggle="modal" data-bs-target="#password-modal"><b>THAY ĐỔI MẬT KHẨU</b></a>
                 </div>
-                <div class="col col-6">
+                <div class="col col-4">
                 <h5>Địa Chỉ Giao Hàng</h5>
 				<div class="row" id="address-list">
 				<!--ADDRESS LOAD AJAX -->
 				</div>
                 <a href="" data-bs-toggle="modal" data-bs-target="#address-modal"><b>THÊM ĐỊA CHỈ</b></a>
                 </div>
+				<div class="col col-4">
+                <h5>Đơn đặt hàng</h5>
+				<a href="order-list.php"><b>XEM ĐƠN HÀNG ĐÃ ĐẶT</b></a>
+				</div>
 				<div class="col-12 my-3"></div>
             </div>         
           </div>
@@ -62,9 +67,13 @@ require_once("class/order.php");
 		  <h3 class="my-4">Sản phẩm đã xem</h3>
 		  <div class="row">       
 		  <?php if(isset($_SESSION['History']))
-		  $classproduct = new product();
 		  {
-			for($i=0;$i<sizeof($_SESSION['History']);$i++)
+		  $classproduct = new product();
+			$count=0;
+			for($i=sizeof($_SESSION['History'])-1;$i>=0;$i--)
+			{
+			$count++;
+			if($count<6)
 			{
 			$idhistory = $_SESSION['History'][$i]['ID'];
 			$productarrayhistory = $classproduct->getByID($conn, $idhistory);
@@ -88,7 +97,10 @@ require_once("class/order.php");
 				   </div>
 				</a>
 			 </div>   
-		  <?php } } ?>
+		  <?php }} } 
+		  else {?>
+			<h5>Chưa có lịch sử</h5>
+		  <?php } ?>
 		  </div>
       </div>
       <?php require_once 'view/footer.php' ?>
@@ -160,13 +172,39 @@ require_once("class/order.php");
 				<input type="text" class="form-control" value="<?php echo $_SESSION['Phonenumber'] ?>" id="phonenumberacc" name="phonenumberacc" placeholder="Hãy nhập số điện thoại">
 				<small style="color:red"><?php echo $errorphonenumber?></small>
 			  </div>
-			  <div class="mb-3">
-				<label for="passwordacc" class="form-label">Mật Khẩu:</label>
-				<input type="text" class="form-control" id="passwordacc" name="passwordacc" placeholder="*********">
-			  </div>
 			<div class="modal-footer">
 			  <button type="button" class="btn btn-secondary px-5" data-bs-dismiss="modal">Trở lại</button>
 			  <button type="submit" class="btn btn-primary px-5" id="account-btn" name="account-btn">Lưu</button>
+			</div>
+			</form>
+		  </div>
+		</div>
+	  </div>
+	</div>
+	<div class="modal fade" id="password-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+		<br>
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title">Thay Đổi Mật Khẩu</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		  </div>
+		  <div class="modal-body">
+			<form method="post" action="profile.php" class="form-horizontal" id="change-pasword-form">
+			  <input type="text" value="<?php echo $_SESSION['Email'] ?>" class="form-control" id="Email" name="Email" hidden>
+			  <div class="mb-3">
+				<label for="oldpassword" class="form-label">Mật khẩu cũ: </label>
+				<input type="password" class="form-control" id="oldpassword" name="oldpassword" placeholder="Hãy nhập mật khẩu cũ">
+				<small style="color:red"><?php echo $errorfullname?></small>
+			  </div>
+			  <div class="mb-3">
+				<label for="newpassword" class="form-label">Mật khẩu mới:</label>
+				<input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Hãy nhập mật khẩu mới">
+				<small style="color:red"><?php echo $erroremail?></small>
+			  </div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-secondary px-5" data-bs-dismiss="modal">Trở lại</button>
+			  <button type="submit" class="btn btn-primary px-5" id="change-password-btn" name="change-password-btn">Lưu</button>
 			</div>
 			</form>
 		  </div>
@@ -234,6 +272,4 @@ require_once("class/order.php");
 	});	
 	</script>
 </body>
-
-
 </html>

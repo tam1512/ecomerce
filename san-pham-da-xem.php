@@ -36,40 +36,13 @@ $url = $current_url[0];
          <div class="grid wide">
             <div class="header-content">
                <div class="product-category">
-                  <h2 class="category-name">
-                     <?php 
-                     if(isset($_GET['keyword']))
-                     {
-                        $classproduct = new product();
-                        $productarray = $classproduct->getAllSearch($conn, $_GET['keyword']);                       
-                        $countsp = sizeof($productarray);
-                        echo "Tìm kiếm theo keyword: ".$_GET['keyword'];
-                     }
-                     if(isset($_GET['filter']))
-                     {
-                        $classproduct = new product();
-                        $productarray = $classproduct->getAllSearchConstraint($conn,"filter", $_GET['filter']);                       
-                        $countsp = sizeof($productarray);
-                        $categoryname = $classcategory->getName($conn,$_GET['filter']);
-                        echo "Tìm kiếm theo Filter: ".$categoryname['Name'];
-                     }
-                     if(isset($_GET['filter-detail']))
-                     {
-                        $classproduct = new product();
-                        $productarray = $classproduct->getAllSearchConstraint($conn,"filter-detail", $_GET['filter-detail']);                       
-                        $countsp = sizeof($productarray);
-                        $categoryname = $classcategory->getDetailName($conn,$_GET['filter-detail']);
-                        echo "Tìm kiếm theo Filter: ".$categoryname['Name'];
-                     }
-                     if(!isset($_GET['keyword']) && !isset($_GET['filter']) && !isset($_GET['filter-detail']))
-                     {
-                        echo "Không tìm thấy filter";
-                     }
-                     ?>
-                  </h2>
-                  <span><?php 
-                  if(isset($_GET['keyword'])||isset($_GET['filter'])||isset($_GET['filter-detail']))
+                  <h2 class="category-name">Sản phẩm đã xem</h2>
+                  <span>
+                  <?php 
+                  if(isset($_SESSION['History']))
                   {
+                  $classproduct = new product();  
+                  $countsp =  sizeof($_SESSION['History']);
                   echo $countsp;
                   }
                   else
@@ -123,49 +96,50 @@ $url = $current_url[0];
                </div>
                <div class="list-product col l-9-6">
                   <div class="row">
-                  <?php 
-                  if(isset($_GET['keyword']) || isset($_GET['filter']) || isset($_GET['filter-detail']))
-                  {                 
+                  <?php          
                   $count=0;
-                  $position = 1;
+                  $position = 0;
                   if(isset($_GET['page']))
                   {
                         if(($_GET['page'])==1)
                         {
-                            $position = 1;
+                            $position = 0;
                         }
                         if(($_GET['page'])>=2)
                         {
                             for($i=1;$i<$_GET['page'];$i++)
+                            {
                             $position = ($position+8);
+                            }
                         }
                   }
-                  for($i=$position; $i<=sizeof($productarray);$i++)
+                  for($i=$position; $i<sizeof($_SESSION['History']);$i++)
                   {
-                  $count++;
-                  $detailproductarray = $classproduct->getAllDetail($conn, $productarray[$i]['ID']);
+                  $count++;                 
                   if($count<=8)
-                  {                 
+                  {          
+                  $productarray = $classproduct->getByID($conn, $_SESSION['History'][$i]['ID']);  
+                  $detailproductarray = $classproduct->getAllDetail($conn, $productarray['ID']);
                   ?>
                      <div class="col-3 my-2">
-                        <a href="product-detail.php?product-id=<?php echo $productarray[$i]['ID'] ?>" class="product-item">
+                        <a href="product-detail.php?product-id=<?php echo $productarray['ID'] ?>" class="product-item">
                            <div class="wrap-img">
                               <img src="<?php echo $detailproductarray['Image1']?>" alt="Product Image" class="product-img">
                            </div>
                            <div class="product-like">
-                              <i class="far fa-heart"></i> <span><?php echo  number_format($classproduct->getRating($conn, $productarray[$i]['ID']),1) ?></span>
+                              <i class="far fa-heart"></i> <span><?php echo  number_format($classproduct->getRating($conn, $productarray['ID']),1) ?></span>
                            </div>
                            <div class="product-content">
-                              <div class="product-name"><?php echo $productarray[$i]['Name'];?></div>
+                              <div class="product-name"><?php echo $productarray['Name'];?></div>
                               <div class="product-brand"><?php echo $detailproductarray['Brand'];?></div>
                               <div class="price">
                                  <span class="product-price">đ</span>
-                                 <span class="product-price-sale"><?php echo number_format($productarray[$i]['Price']);?>đ</span>
+                                 <span class="product-price-sale"><?php echo number_format($productarray['Price']);?>đ</span>
                               </div>
                            </div>
                         </a>
                      </div>
-                  <?php } }}
+                  <?php } }
                   if(isset($countsp) && $countsp==0)
                   { ?>
                     <div class="col col-4"></div>
@@ -179,8 +153,8 @@ $url = $current_url[0];
                   <ul class="pagination home-product__pagination">
                       <li class="pagination-item">
                       <?php 
-                      $totalpage = sizeof($productarray)/8;
-                      if((sizeof($productarray)%8)!=0)
+                      $totalpage = sizeof($_SESSION['History'])/8;
+                      if((sizeof($_SESSION['History'])%8)!=0)
                       {
                             $totalpage++;
                       }
@@ -205,7 +179,7 @@ $url = $current_url[0];
                       if($thispage>1)
                         {            
                       ?>
-                          <a href="<?php echo $url.'?'.$type.'='.$value.'&page='.$thispage-1 ?>" class="pagination-item__link">
+                          <a href="<?php echo $url.'?page='.$thispage-1 ?>" class="pagination-item__link">
                           <i class="pagination-item__icon bi bi-chevron-left"></i>
                           </a>
                       </li>
@@ -215,7 +189,7 @@ $url = $current_url[0];
                       {
                       ?>
                       <li class="pagination-item pagination-item--active">
-                          <a href="<?php echo $url.'?'.$type.'='.$value.'&page='.$i ?>" class="pagination-item__link"><?php echo $i ?></a>
+                          <a href="<?php echo $url.'?page='.$i ?>" class="pagination-item__link"><?php echo $i ?></a>
                       </li>
                       <?php } ?>
                       <li class="pagination-item">
@@ -225,7 +199,7 @@ $url = $current_url[0];
                         if($thispage<$totalpage-1)
                         {             
                       ?>
-                          <a href="<?php echo $url.'?'.$type.'='.$value.'&page='.$thispage+1 ?>" class="pagination-item__link">
+                          <a href="<?php echo $url.'?page='.$thispage+1 ?>" class="pagination-item__link">
                           <i class="pagination-item__icon bi bi-chevron-right"></i>
                           </a>
                       </li>
@@ -234,46 +208,6 @@ $url = $current_url[0];
                </div>
             </div>
 
-
-            <div class="Recently-viewed-items">
-              <h3 class="my-4">Sản phẩm đã xem</h3>
-		      <div class="row">       
-		      <?php if(isset($_SESSION['History']))
-              {
-                $count=0;
-                for($i=sizeof($_SESSION['History'])-1;$i>=0;$i--)
-                {
-                $count++;
-                if($count<6)
-                {
-                $idhistory = $_SESSION['History'][$i]['ID'];
-                $productarrayhistory = $classproduct->getByID($conn, $idhistory);
-                $detailproductarrayhistory = $classproduct->getAllDetail($conn, $idhistory);
-                ?>
-                 <div class=" col l-2-4">
-                    <a href="product-detail.php?product-id=<?php echo $productarrayhistory['ID'] ?>" class="product-item">
-                       <div class="wrap-img">
-                          <img src="<?php echo $detailproductarrayhistory['Image1']?>" alt="Product Image" class="product-img">
-                       </div>
-                       <div class="product-like">
-                          <i class="far fa-heart"></i> <span><?php echo  number_format($classproduct->getRating($conn, $productarrayhistory['ID']),1) ?></span>
-                       </div>
-                       <div class="product-content">
-                          <div class="product-name"><?php echo $productarrayhistory['Name'];?></div>
-                          <div class="product-brand"><?php echo $detailproductarrayhistory['Brand'];?></div>
-                          <div class="price">
-                             <span class="product-price">đ</span>
-                             <span class="product-price-sale"><?php echo number_format($productarrayhistory['Price']);?>đ</span>
-                          </div>
-                       </div>
-                    </a>
-                 </div>   
-              <?php }} } 
-              else {?>
-                <h5>Chưa có lịch sử</h5>
-              <?php } ?>
-		      </div>
-            </div>
          </div>
       </div>
       <?php require_once 'view/footer.php'; ?>

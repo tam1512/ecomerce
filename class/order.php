@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 header("Content-type: text/html; charset=utf-8");
 
 class order
@@ -96,7 +96,7 @@ class order
 		$stmt->bind_param('ss',$Quantity,$IDProduct);
 		$stmt->execute();
 		}
-		header('index.php');
+		echo "<script type='text/javascript'>alert('Đặt hàng thành công!');</script>";
 	}
 }
 ?>

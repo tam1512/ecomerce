@@ -75,34 +75,41 @@ require_once("class/order.php");
           </div>
             <h3 class="my-4">Sản phẩm đã xem</h3>
 		  <div class="row">       
-		  <?php if(isset($_SESSION['History']))
-		  $classproduct = new product();
-		  {
-			for($i=0;$i<sizeof($_SESSION['History']);$i++)
-			{
-			$idhistory = $_SESSION['History'][$i]['ID'];
-			$productarrayhistory = $classproduct->getByID($conn, $idhistory);
-			$detailproductarrayhistory = $classproduct->getAllDetail($conn, $idhistory);
-			?>
-			 <div class=" col l-2-4">
-				<a href="product-detail.php?product-id=<?php echo $productarrayhistory['ID'] ?>" class="product-item">
-				   <div class="wrap-img">
-					  <img src="<?php echo $detailproductarrayhistory['Image1']?>" alt="Product Image" class="product-img">
-				   </div>
-				   <div class="product-like">
-					  <i class="far fa-heart"></i> <span><?php echo  number_format($classproduct->getRating($conn, $productarrayhistory['ID']),1) ?></span>
-				   </div>
-				   <div class="product-content">
-					  <div class="product-name"><?php echo $productarrayhistory['Name'];?></div>
-					  <div class="product-brand"><?php echo $detailproductarrayhistory['Brand'];?></div>
-					  <div class="price">
-						 <span class="product-price">đ</span>
-						 <span class="product-price-sale"><?php echo number_format($productarrayhistory['Price']);?>đ</span>
-					  </div>
-				   </div>
-				</a>
-			 </div>   
-		  <?php } } ?>
+		 <?php if(isset($_SESSION['History']))
+          {
+            $classproduct = new product();
+            $count=0;
+            for($i=sizeof($_SESSION['History'])-1;$i>=0;$i--)
+            {
+            $count++;
+            if($count<6)
+            {
+            $idhistory = $_SESSION['History'][$i]['ID'];
+            $productarrayhistory = $classproduct->getByID($conn, $idhistory);
+            $detailproductarrayhistory = $classproduct->getAllDetail($conn, $idhistory);
+            ?>
+             <div class=" col l-2-4">
+                <a href="product-detail.php?product-id=<?php echo $productarrayhistory['ID'] ?>" class="product-item">
+                   <div class="wrap-img">
+                      <img src="<?php echo $detailproductarrayhistory['Image1']?>" alt="Product Image" class="product-img">
+                   </div>
+                   <div class="product-like">
+                      <i class="far fa-heart"></i> <span><?php echo  number_format($classproduct->getRating($conn, $productarrayhistory['ID']),1) ?></span>
+                   </div>
+                   <div class="product-content">
+                      <div class="product-name"><?php echo $productarrayhistory['Name'];?></div>
+                      <div class="product-brand"><?php echo $detailproductarrayhistory['Brand'];?></div>
+                      <div class="price">
+                         <span class="product-price">đ</span>
+                         <span class="product-price-sale"><?php echo number_format($productarrayhistory['Price']);?>đ</span>
+                      </div>
+                   </div>
+                </a>
+             </div>   
+          <?php }} } 
+          else {?>
+            <h5>Chưa có lịch sử</h5>
+          <?php } ?>
 		  </div>
       </div>
       <?php require_once 'view/footer.php' ?>

@@ -27,6 +27,29 @@ class product
 		}  
 		return $array;
 	}
+	public function getAllSearch ($conn,$keyword)
+	{
+		$sql = "SELECT * FROM product WHERE Name LIKE '%".$keyword."%';";
+		$stmt = $conn->prepare($sql);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$array = array();
+		$count = 1;
+		while ($row = $result->fetch_assoc())
+		{	
+			$array[$count]['ID'] = $row['ID'];
+			$array[$count]['Name'] = $row['Name'];	
+			$array[$count]['Price'] = $row['Price'];
+			$array[$count]['Description'] = $row['Description'];
+			$array[$count]['IDCategory'] = $row['IDCategory'];	
+			$array[$count]['IDDetailCategory'] = $row['IDDetailCategory'];
+			$array[$count]['IDSale'] = $row['IDSale'];
+			$array[$count]['newArrival'] = $row['newArrival'];	
+			$array[$count]['Sold'] = $row['Sold'];	
+			$count++;
+		}  
+		return $array;
+	}
 	public function getAllDescend ($conn)
 	{
 		$sql = "SELECT * FROM product ORDER BY Sold DESC;";
@@ -46,6 +69,32 @@ class product
 			$array[$count]['IDSale'] = $row['IDSale'];
 			$array[$count]['newArrival'] = $row['newArrival'];	
 			$array[$count]['Sold'] = $row['Sold'];	
+			$count++;
+		}  
+		return $array;
+	}
+	public function getAllSearchConstraint ($conn,$field,$constraint)
+	{
+		if($field=="filter")
+		{
+		$sql = "SELECT product.ID,product.Name,product.Price,category.Name as CateName FROM (product INNER JOIN category ON product.IDCategory=category.ID) WHERE filter='$constraint'";
+		}
+		if($field=="filter-detail")
+		{
+		$sql = "SELECT product.ID,product.Name,product.Price,detail_category.Name as DetailCateName,detail_category.filter
+			FROM (product INNER JOIN detail_category ON product.IDDetailCategory=detail_category.ID
+						INNER JOIN category ON product.IDCategory=category.ID) WHERE detail_category.filter='$constraint'";
+		}
+		$stmt = $conn->prepare($sql);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$array = array();
+		$count = 1;
+		while ($row = $result->fetch_assoc())
+		{	
+			$array[$count]['ID'] = $row['ID'];
+			$array[$count]['Name'] = $row['Name'];	
+			$array[$count]['Price'] = $row['Price'];
 			$count++;
 		}  
 		return $array;

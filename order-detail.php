@@ -65,8 +65,23 @@ require_once("class/order.php");
                 <?php 
                 }
                 ?>
-                </div>                
+                </div>    
+                <div class="col col-3">
+                <?php
+                $total=0;
+                for($i=0;$i<sizeof($orderdetailarray);$i++)
+			    {
+                    $s=$orderdetailarray[$i]['Price']*$orderdetailarray[$i]['Quantity'];
+                    $total=$total + $s;
+                }
+                ?>
+                    <div class="row">
+                        <div class="col col-8"><b>Thành tiền:</b></div>
+                        <div class="col col-4"><h4><?php echo number_format($total) ?></h4></div>
+                    </div><hr>
+                </div>
             </div> 
+            <a href="order-list.php" class="btn btn-danger py-2"> < Quay lại</a>
       </div>
       <?php require_once 'view/footer.php' ?>
    </div>	

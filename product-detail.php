@@ -7,6 +7,7 @@ require_once("class/product.php");
 require_once("class/cart.php");
 require_once("class/order.php"); 
 //print_r($_SESSION['cart']);
+
 ?>
 <head>
    <meta charset="UTF-8" />
@@ -252,7 +253,12 @@ require_once("class/order.php");
             <div class="row">
               <?php if(isset($_SESSION['History']))
               {
-                for($i=0;$i<sizeof($_SESSION['History']);$i++)
+                $classproduct = new product();
+                $count=0;
+                for($i=sizeof($_SESSION['History'])-1;$i>=0;$i--)
+                {
+                $count++;
+                if($count<6)
                 {
                 $idhistory = $_SESSION['History'][$i]['ID'];
                 $productarrayhistory = $classproduct->getByID($conn, $idhistory);
@@ -276,7 +282,10 @@ require_once("class/order.php");
                        </div>
                     </a>
                  </div>   
-              <?php } } ?>
+              <?php }} } 
+              else {?>
+                <h5>Chưa có lịch sử</h5>
+              <?php } ?>
             </div>
          </div>  
          </div>

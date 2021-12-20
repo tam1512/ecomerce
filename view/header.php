@@ -4,13 +4,15 @@
          <img src="https://m.media-amazon.com/images/G/01/Zappos/MysteryDeals2021/2021-ZAPPOS-HOLIDAY-HEADER-LOGO.svg"
             alt="Welcome! Go to Zappos.com Homepage!" height="50" />
       </a>
-      <div class="search">
+      <form method="post">
+      <div class="search">        
          <div class="search__wrap">
             <i class="bi bi-search search__icon"></i>
-            <input type="text" class="search__input" placeholder="Tìm kiếm sản phẩm của bạn"></input>
+            <input type="text" class="search__input" id="keyword" name="keyword" placeholder="Tìm kiếm sản phẩm của bạn"></input>
          </div>
-         <div class="search__btn">SEARCH</div>
+         <button type="submit" id="search-btn" name="search-btn" class="search__btn">SEARCH</button>        
       </div>
+      </form>
       <div class="cart__btn ">
          <a class="cart__link" href="giohang.php"><i class="fas fa-shopping-cart cart__icon"></i>
             <span>Giỏ hàng</span></a>
@@ -72,7 +74,7 @@
                 for($j=1;$j<=sizeof($arraydetailcategory);$j++)
                 {
                 ?>
-                   <li class="clothing__item"><a href="category.php?filter=<?php echo $arraydetailcategory[$j]['Filter']?>" class=item__link><?php echo $arraydetailcategory[$j]['Name']?></a></li>
+                   <li class="clothing__item"><a href="category.php?filter-detail=<?php echo $arraydetailcategory[$j]['Filter']?>" class=item__link><?php echo $arraydetailcategory[$j]['Name']?></a></li>
                 <?php } ?>
                 </ul>
              </li>

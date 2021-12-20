@@ -4,6 +4,7 @@
     date_default_timezone_set('Asia/Ho_Chi_Minh');
 	require_once ("class/database.php"); 
     require_once ("class/account.php");
+    require_once ("class/order.php");
 	$todaytime = time();
 	$classconnection = new connection();
 	$conn = $classconnection->connect();
@@ -15,6 +16,7 @@
 	$username = "";	
 	$title = "E-Commerce";
     $classaccount = new account();    
+    $classorder = new order();
 
 if(isset($_POST['login-btn'])){
     $email = $_POST['email'];
@@ -96,7 +98,7 @@ if(isset($_GET['logout']))
 		unset($_SESSION['regdate']);
 		unset($_SESSION['lastlogin']);
         //unset($_SESSION['cart']);
-        //unset($_SESSION['History']);
+        unset($_SESSION['History']);
         header('location: index.php');
         exit();
     }
@@ -192,7 +194,6 @@ if(isset($_POST['new-password'])){
 		$reset_link_token = $_POST['reset_link_token'];
         $password = $_POST['password'];
         $cpassword = $_POST['cpassword'];
-
             if($password == $cpassword)
 			{
                     header("Location: controller/update-forget-password.php?email=$email&reset_link_token=$reset_link_token&password=$password");
@@ -203,6 +204,28 @@ if(isset($_POST['new-password'])){
                 header("location: reset-password.php?key=$email&token=$reset_link_token&alert=1");
             }            
     }  
+if(isset($_POST['change-password-btn'])){      
+        $email = $_POST['Email'];
+		$oldpassword = $_POST['oldpassword'];
+		$newpassword = $_POST['newpassword'];	
+        $query1 = mysqli_query($conn,"SELECT Password FROM `users` WHERE `Email`='".$email."'");
+        if($classaccount->checkPassword($email,$oldpassword,$conn))
+        {
+            $password_info=mysqli_fetch_array($query1);
+		    $sha_info = explode("$",$password_info[0]);
+  		    if( $sha_info[1] === "SHA" ) 
+		    {
+			    $salt = $sha_info[2];
+			    $passwordencrypted = '$SHA$'.$salt.'$'.hash('sha256',hash('sha256', $newpassword).$salt);
+			    mysqli_query($conn,"UPDATE users SET Password='" . $passwordencrypted . "' WHERE Email='" . $email . "'");
+			    echo "<script type='text/javascript'>alert('Thay đổi mật khẩu thành công!');</script>";
+            }
+        }
+        else
+        {
+            echo "<script type='text/javascript'>alert('Bạn nhập sai mật khẩu cũ');</script>";
+        }	
+    }
 if(isset($_POST['comment-btn']))
 {
     $IDProduct = $_POST['idproduct'];
@@ -254,8 +277,7 @@ if(isset($_GET['product-id']))
     }   
 }
 if(isset($_POST['checkout-btn']))
-{	
-    $classorder = new order();
+{	   
 	$total=0;
 	$totalquantity=0;
 	for ($i=0; $i<sizeof($_SESSION['cart']); $i++)
@@ -263,13 +285,61 @@ if(isset($_POST['checkout-btn']))
 	$total = $total + $_SESSION['cart'][$i]['Quantity']*$_SESSION['cart'][$i]['Price'];
 	}
     $total = $total+25000;
-    if(isset($_POST['addressdropdown']))
+    if(isset($_POST['addressdropdown']) || isset($_POST['idhidden']))
     {
+        $check = 0;
+        if(isset($_POST['addressdropdown']))
+        {
         $addressarray = $classaccount->getAccountAddressByID($conn, $_POST['addressdropdown']);
         $fullname = $addressarray['Fullname'];
         $address = $addressarray['Address'];
         $phonenumber = $addressarray['Phonenumber'];
         $khachhang = $addressarray['IDUser'];
+        $email = $_POST['email']; 
+        $note = $_POST['note'];
+        $check = 1;
+        }
+        if(isset($_POST['idhidden']))
+        { 
+        $fullname = $_POST['fullname'];    
+        $phonenumber = $_POST['phonenumber'];
+        if($classaccount->checkPhoneNumber($phonenumber))
+            {
+            $address = $_POST['address'];	        
+            $khachhang = $_POST['idhidden'];;
+            $email = $_POST['email']; 
+            $note = $_POST['note'];
+            $check = 1;
+            }
+            else
+            {
+            echo "<script type='text/javascript'>alert('Sai định dạng số điện thoại');</script>";
+            }  
+        }
+        if($check == 1)
+        {
+        $timetoday = time();
+        $shiptype = $_POST['shiptype'];	
+
+	    $sqlcheckorderid = "SELECT * FROM orders;";
+	    $stmt = $conn->prepare($sqlcheckorderid);
+	    $stmt->execute();
+	    $result = $stmt->get_result();
+	    $rowtoinsert = mysqli_num_rows($result)+1;
+
+        $order = array("ID"=>$rowtoinsert,"IDUser"=>$khachhang,"Fullname"=>$fullname,"Address"=>$address,"Email"=>$email,"Phonenumber"=>$phonenumber,"Total"=>$total,"Note"=>$note,"Orderdate"=>$timetoday,"Shiptype"=>$shiptype);
+	    $insertdetailarray = array();
+	    for($i=0;$i<sizeof($_SESSION['cart']);$i++)
+	    {
+        $insertdetailarray[$i]['IDOrder'] = $rowtoinsert;
+	    $insertdetailarray[$i]['IDProduct'] = $_SESSION['cart'][$i]['IDProduct'];
+        $insertdetailarray[$i]['Price'] = $_SESSION['cart'][$i]['Price'];
+	    $insertdetailarray[$i]['Quantity'] = $_SESSION['cart'][$i]['Quantity'];
+	    $insertdetailarray[$i]['Size'] = $_SESSION['cart'][$i]['Size'];    
+	    }
+	    $classorder->addOrder($order, $insertdetailarray,$conn);
+	    unset($_SESSION['cart']); 
+        }        
     }
     else
     {
@@ -279,34 +349,39 @@ if(isset($_POST['checkout-btn']))
         {
         $address = $_POST['address'];	        
         $khachhang = "Unknown";
+        $email = $_POST['email']; 
+        $note = $_POST['note'];
+        $timetoday = time();
+        $shiptype = $_POST['shiptype'];	
+
+	    $sqlcheckorderid = "SELECT * FROM orders;";
+	    $stmt = $conn->prepare($sqlcheckorderid);
+	    $stmt->execute();
+	    $result = $stmt->get_result();
+	    $rowtoinsert = mysqli_num_rows($result)+1;
+
+        $order = array("ID"=>$rowtoinsert,"IDUser"=>$khachhang,"Fullname"=>$fullname,"Address"=>$address,"Email"=>$email,"Phonenumber"=>$phonenumber,"Total"=>$total,"Note"=>$note,"Orderdate"=>$timetoday,"Shiptype"=>$shiptype);
+	    $insertdetailarray = array();
+	    for($i=0;$i<sizeof($_SESSION['cart']);$i++)
+	    {
+        $insertdetailarray[$i]['IDOrder'] = $rowtoinsert;
+	    $insertdetailarray[$i]['IDProduct'] = $_SESSION['cart'][$i]['IDProduct'];
+        $insertdetailarray[$i]['Price'] = $_SESSION['cart'][$i]['Price'];
+	    $insertdetailarray[$i]['Quantity'] = $_SESSION['cart'][$i]['Quantity'];
+	    $insertdetailarray[$i]['Size'] = $_SESSION['cart'][$i]['Size'];    
+	    }
+	    $classorder->addOrder($order, $insertdetailarray,$conn);
+	    unset($_SESSION['cart']); 
         }
         else
         {
         echo "<script type='text/javascript'>alert('Sai định dạng số điện thoại');</script>";
         }  
-    }   
-	$email = $_POST['email']; 
-    $note = $_POST['note'];
-    $timetoday = time();
-    $shiptype = $_POST['shiptype'];	
-
-	$sqlcheckorderid = "SELECT * FROM orders;";
-	$stmt = $conn->prepare($sqlcheckorderid);
-	$stmt->execute();
-	$result = $stmt->get_result();
-	$rowtoinsert = mysqli_num_rows($result)+1;
-
-    $order = array("ID"=>$rowtoinsert,"IDUser"=>$khachhang,"Fullname"=>$fullname,"Address"=>$address,"Email"=>$email,"Phonenumber"=>$phonenumber,"Total"=>$total,"Note"=>$note,"Orderdate"=>$timetoday,"Shiptype"=>$shiptype);
-	$insertdetailarray = array();
-	for($i=0;$i<sizeof($_SESSION['cart']);$i++)
-	{
-    $insertdetailarray[$i]['IDOrder'] = $rowtoinsert;
-	$insertdetailarray[$i]['IDProduct'] = $_SESSION['cart'][$i]['IDProduct'];
-    $insertdetailarray[$i]['Price'] = $_SESSION['cart'][$i]['Price'];
-	$insertdetailarray[$i]['Quantity'] = $_SESSION['cart'][$i]['Quantity'];
-	$insertdetailarray[$i]['Size'] = $_SESSION['cart'][$i]['Size'];    
-	}
-	$classorder->addOrder($order, $insertdetailarray,$conn);
-	unset($_SESSION['cart']);    
+    }      
+}
+if(isset($_POST['search-btn']))
+{
+    $keyword = $_POST['keyword'];
+    header("location: category.php?keyword=$keyword");
 }
 ?>

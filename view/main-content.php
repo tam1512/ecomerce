@@ -19,7 +19,24 @@
       <?php 
       $classproduct = new product();
       $productarray = $classproduct->getAll($conn);
-      for($i=1; $i<=sizeof($productarray);$i++)
+      $count=0;
+      $position = 1;
+      if(isset($_GET['page']))
+      {
+            if(($_GET['page'])==1)
+            {
+                $position = 1;
+            }
+            if(($_GET['page'])>=2)
+            {
+                for($i=1;$i<$_GET['page'];$i++)
+                $position = ($position+4);
+            }
+      }
+      for($i=$position; $i<=sizeof($productarray);$i++)
+      {
+      $count++;
+      if($count<=4)
       {
       $detailproductarray = $classproduct->getAllDetail($conn, $productarray[$i]['ID']);
       ?>
@@ -41,10 +58,50 @@
                </div>
             </a>
          </div>
-      <?php } ?>
+      <?php } }?>
       </div>
+      <ul class="pagination home-product__pagination">
+          <li class="pagination-item">
+          <?php 
+          $totalpage = sizeof($productarray)/4;
+          if((sizeof($productarray)%4)!=0)
+          {
+                $totalpage++;
+          }
+          if(isset($_GET['page']))
+          {
+          $thispage = $_GET['page']; 
+            if($thispage>1)
+            {            
+          ?>
+              <a href="index.php?page=<?php echo $thispage-1?>" class="pagination-item__link">
+              <i class="pagination-item__icon bi bi-chevron-left"></i>
+              </a>
+          </li>
+          <?php }} ?>
+          <?php           
+          for($i=1; $i<=$totalpage;$i++)
+          {
+          ?>
+          <li class="pagination-item pagination-item--active">
+              <a href="index.php?page=<?php echo $i ?>" class="pagination-item__link"><?php echo $i ?></a>
+          </li>
+          <?php } ?>
+          <li class="pagination-item">
+          <?php
+          if(isset($_GET['page']))
+          {
+            if($thispage<$totalpage-1)
+            {             
+          ?>
+              <a href="index.php?page=<?php echo $thispage+1?>" class="pagination-item__link">
+              <i class="pagination-item__icon bi bi-chevron-right"></i>
+              </a>
+          </li>
+          <?php }} ?>
+      </ul>
    </div>  
-   <div class="container-fluid my-4" style="padding: 0">
+   <div class="container-fluid my-5" style="padding: 0">
       <div class="row">
         <div class="col col-10">
         <img src="assets/img/product/featured.jpg" class="img-fluid">
@@ -60,6 +117,8 @@
       <?php 
       $productarraydesc = $classproduct->getAllDescend($conn);
       for($i=1; $i<=sizeof($productarraydesc);$i++)
+      {
+      if($i<=4)
       {
       $detailproductarray = $classproduct->getAllDetail($conn, $productarraydesc[$i]['ID']);
       ?>
@@ -81,15 +140,28 @@
                </div>
             </a>
          </div>
-      <?php } ?>
+      <?php }} ?>
       </div>
    </div>  
    <div class="Recently-viewed-items">
-      <h1>Sản phẩm đã xem</h1>
+      <div class="row">
+        <div class="col col-10">
+        <h1>Sản phẩm đã xem</h1></div>
+        <div class="col col-2">
+        <?php if(isset($_SESSION['History']))
+        { ?>
+        <a href="san-pham-da-xem.php" class="btn btn-danger">Xem toàn bộ</a>
+        <?php } ?>
+        </div>
+      </div>
       <div class="row">       
       <?php if(isset($_SESSION['History']))
       {
-        for($i=0;$i<sizeof($_SESSION['History']);$i++)
+        $count=0;
+        for($i=sizeof($_SESSION['History'])-1;$i>=0;$i--)
+        {
+        $count++;
+        if($count<6)
         {
         $idhistory = $_SESSION['History'][$i]['ID'];
         $productarrayhistory = $classproduct->getByID($conn, $idhistory);
@@ -113,7 +185,10 @@
                </div>
             </a>
          </div>   
-      <?php } } ?>
+      <?php }} } 
+      else {?>
+        <h5>Chưa có lịch sử</h5>
+      <?php } ?>
       </div>
    </div>
 </div>
