@@ -43,6 +43,8 @@ require_once("class/order.php");
                 <div class="col col-9">
                 <?php 
                 $classorder = new order();
+                $orderarray = $classorder->getOrderByID($conn,$_GET['order-id']);
+                $ordergiftcode = $classorder->getGiftCodeByID($conn, $orderarray['IDGiftCode']);
                 $orderdetailarray = $classorder->getOrderDetail($_GET['order-id'],$conn);
                 for($i=0;$i<sizeof($orderdetailarray);$i++)
                 {
@@ -57,7 +59,8 @@ require_once("class/order.php");
                             <p>Thương hiệu: <?php echo  $orderdetailarray[$i]['Brand']?><br>
                             Size: <?php echo $orderdetailarray[$i]['Size']?><br>
                             Số lượng: <?php echo $orderdetailarray[$i]['Quantity']?><br>
-                            Số tiền: <?php echo number_format($orderdetailarray[$i]['Price'])?>đ
+                            Số tiền: <?php echo number_format($orderdetailarray[$i]['Price'])?>đ<br>
+
                             </p>
                         </div>
                     </div>
@@ -75,9 +78,35 @@ require_once("class/order.php");
                     $total=$total + $s;
                 }
                 ?>
-                    <div class="row">
+                    <div class="row my-4">
                         <div class="col col-8"><b>Thành tiền:</b></div>
-                        <div class="col col-4"><h4><?php echo number_format($total) ?></h4></div>
+                        <div class="col col-4"><?php echo number_format($total) ?></div>
+                    </div>
+                    <div class="row my-4">
+                        <div class="col col-8"><b>Phí ship:</b></div>
+                        <?php if($ordergiftcode['GiftCode']=="FREESHIP")
+                        { ?>
+                            <div class="col col-4"><del><?php echo number_format(25000); $total = $total+25000;?></del></div>
+                        <?php } 
+                        else if($ordergiftcode['GiftCode']!="FREESHIP")
+                        { ?>
+                            <div class="col col-4"><?php echo number_format(25000); $total = $total+25000;?></div>
+                        <?php } ?>                       
+                    </div><hr>
+                    <div class="row my-4">
+                        <div class="col col-8"><b>Áp dụng mã giảm giá:</b></div>
+                        <div class="col col-4"><?php echo $ordergiftcode['Name'] ?></div>
+                    </div><hr>
+                    <div class="row my-4">
+                        <div class="col col-8"><b>Thành tiền sau giảm giá:</b></div>
+                        <?php if($ordergiftcode['GiftCode']=="FREESHIP")
+                        { ?>
+                            <div class="col col-4"><?php echo number_format($total-25000) ?></div>
+                        <?php } 
+                        else if($ordergiftcode['GiftCode']!="FREESHIP")
+                        { ?>
+                            <div class="col col-4"><?php echo number_format($total-($total*($ordergiftcode['ValueCode']/100))) ?></div>
+                        <?php } ?>                        
                     </div><hr>
                 </div>
             </div> 

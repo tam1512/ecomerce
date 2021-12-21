@@ -77,11 +77,11 @@ class product
 	{
 		if($field=="filter")
 		{
-		$sql = "SELECT product.ID,product.Name,product.Price,category.Name as CateName FROM (product INNER JOIN category ON product.IDCategory=category.ID) WHERE filter='$constraint'";
+		$sql = "SELECT product.ID,product.Name,product.Price,product.Sold,category.Name as CateName FROM (product INNER JOIN category ON product.IDCategory=category.ID) WHERE filter='$constraint'";
 		}
 		if($field=="filter-detail")
 		{
-		$sql = "SELECT product.ID,product.Name,product.Price,detail_category.Name as DetailCateName,detail_category.filter
+		$sql = "SELECT product.ID,product.Name,product.Price,product.Sold,detail_category.Name as DetailCateName,detail_category.filter
 			FROM (product INNER JOIN detail_category ON product.IDDetailCategory=detail_category.ID
 						INNER JOIN category ON product.IDCategory=category.ID) WHERE detail_category.filter='$constraint'";
 		}
@@ -95,6 +95,7 @@ class product
 			$array[$count]['ID'] = $row['ID'];
 			$array[$count]['Name'] = $row['Name'];	
 			$array[$count]['Price'] = $row['Price'];
+			$array[$count]['Sold'] = $row['Sold'];
 			$count++;
 		}  
 		return $array;
@@ -157,8 +158,29 @@ class product
 			$array[$count]['IDUser'] = $row['IDUser'];
 			$array[$count]['Comments'] = $row['Comments'];
 			$array[$count]['Rating'] = $row['Rating'];	
+			$array[$count]['Image'] = $row['Image'];
 			$array[$count]['Postdate'] = $row['Postdate'];
 			$count++;
+		}  
+		return $array;
+	}
+	public function getReviewByUserID ($conn, $iduser, $id)
+	{
+		$sql = "SELECT * FROM comments WHERE IDProduct=? AND IDUser=?;";
+		$stmt = $conn->prepare($sql);
+		$stmt->bind_param('ss',$id,$iduser);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$array = array();
+		while ($row = $result->fetch_assoc())
+		{	
+			$array['ID'] = $row['ID'];
+			$array['IDProduct'] = $row['IDProduct'];	
+			$array['IDUser'] = $row['IDUser'];
+			$array['Comments'] = $row['Comments'];
+			$array['Rating'] = $row['Rating'];	
+			$array['Image'] = $row['Image'];
+			$array['Postdate'] = $row['Postdate'];
 		}  
 		return $array;
 	}
@@ -212,6 +234,24 @@ class product
 		$row = $result->fetch_assoc();
 		$array = array();
 		if($row['Quantity']==0)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	public function checkBought ($conn, $iduser, $idproduct)
+	{
+		$sql = "SELECT * FROM (detail_order INNER JOIN orders ON detail_order.IDOrder=orders.ID) WHERE IDUser=? AND IDProduct=?";
+		$stmt = $conn->prepare($sql);
+		$stmt->bind_param('ss',$iduser,$idproduct);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$numrow = mysqli_num_rows($result);
+		$row = $result->fetch_assoc();
+		if($numrow==0)
 		{
 			return false;
 		}

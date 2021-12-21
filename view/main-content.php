@@ -14,7 +14,7 @@
       </div>
    </div>
    <div class="product">
-      <h1>Sản phẩm</h1>
+      <h1 class="my-5">Sản phẩm</h1>
       <div class="row">
       <?php 
       $classproduct = new product();
@@ -52,7 +52,7 @@
                   <div class="product-name"><?php echo $productarray[$i]['Name'];?></div>
                   <div class="product-brand"><?php echo $detailproductarray['Brand'];?></div>
                   <div class="price">
-                     <span class="product-price">đ</span>
+                     <small><?php echo $productarray[$i]['Sold']?> sản phẩm đã bán</small>
                      <span class="product-price-sale"><?php echo number_format($productarray[$i]['Price']);?>đ</span>
                   </div>
                </div>
@@ -134,7 +134,7 @@
                   <div class="product-name"><?php echo $productarraydesc[$i]['Name'];?></div>
                   <div class="product-brand"><?php echo $detailproductarray['Brand'];?></div>
                   <div class="price">
-                     <span class="product-price">đ</span>
+                     <small><?php echo $productarraydesc[$i]['Sold']?> sản phẩm đã bán</small>
                      <span class="product-price-sale"><?php echo number_format($productarraydesc[$i]['Price']);?>đ</span>
                   </div>
                </div>
@@ -179,7 +179,7 @@
                   <div class="product-name"><?php echo $productarrayhistory['Name'];?></div>
                   <div class="product-brand"><?php echo $detailproductarrayhistory['Brand'];?></div>
                   <div class="price">
-                     <span class="product-price">đ</span>
+                     <small><?php echo $productarrayhistory['Sold']?> sản phẩm đã bán</small>
                      <span class="product-price-sale"><?php echo number_format($productarrayhistory['Price']);?>đ</span>
                   </div>
                </div>
@@ -187,7 +187,7 @@
          </div>   
       <?php }} } 
       else {?>
-        <h5>Chưa có lịch sử</h5>
+        <h5 class="py-5 my-2">Lịch sử trống</h5>
       <?php } ?>
       </div>
    </div>

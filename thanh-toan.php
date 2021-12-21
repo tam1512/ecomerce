@@ -154,6 +154,28 @@ if(!isset($_SESSION['cart']))
                         <div class="col col-2">25.000đ</div>
                     </div>
                     <hr>
+                    <?php 
+                    if(isset($_SESSION['Fullname']))
+                    {
+                    $classorder = new order();
+                    if($classorder->getGiftCodeForUser($conn,$_SESSION['ID']))
+                    {
+                    $arraygiftcode = $classorder->getGiftCodeForUser($conn,$_SESSION['ID']);
+                    ?>
+                    <div class="row">
+                        <div class="col col-7">Nhập mã giảm giá: </div>
+                        <div class="col col-5">Bạn có <?php echo sizeof($arraygiftcode) ?> mã giảm</div>
+                    </div>
+                    <select class="form-control my-3" id="giftcode" name="giftcode">
+                        <option value="0">Chọn mã giảm giá</option>
+                        <?php 
+                        for($i=0;$i<sizeof($arraygiftcode);$i++) 
+                        { ?>
+                        <option value="<?php echo $arraygiftcode[$i]['IDGiftCode']?>"><?php echo $arraygiftcode[$i]['Name']?></option>
+                        <?php } ?>
+                    </select>
+                    <hr>
+                    <?php }} ?>
                     <div class="row my-3">
                         <div class="col col-10">Tổng cộng: </div>
                         <div class="col col-2"><?php echo number_format($tongcong+25000) ?>đ</div>

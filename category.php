@@ -97,28 +97,32 @@ $url = $current_url[0];
             <div class="row filter-detail">
                <div class="filter col l-2-4">
                   <span class="filter__title">Tìm Kiếm Chi Tiết</span>
-                  <div class="filter__brand">
-                     <span class="brand-title">Thương Hiệu</span>
-                     <div class="filter-category__name">
-                        <input type="checkbox" name="Nike" id="check-brand">
-                        <span>Nike</span>
-                     </div>
-                     <div class="filter-category__name">
-                        <input type="checkbox" name="Adidas" id="check-brand">
-                        <span>Adisdas</span>
-                     </div>
-                     <div class="filter-category__name">
-                        <input type="checkbox" name="Conveser" id="check-brand">
-                        <span>Conveser</span>
-                     </div>
+                  <div class="accordion accordion-flush" id="accordionExample">
+                  <?php 
+                  $classcategory = new category();
+                  $arraycategory = $classcategory->getAll($conn);
+                  for($i=1;$i<=sizeof($arraycategory);$i++)
+                  { 
+                  ?>
+                  <div class="accordion-item">
+                  <h2 class="accordion-header justify-content-center" id="heading<?php echo $i ?>">
+                    <a class="btn" data-bs-toggle="collapse" href="#tabcategory<?php echo $i ?>" aria-expanded="false" aria-controls="multiCollapseExample1"><?php echo $arraycategory[$i]['Name'] ?></a>   
+                  </h2>
+                  <div id="tabcategory<?php echo $i ?>" class="accordion-collapse collapse" aria-labelledby="heading<?php echo $i ?>" data-bs-parent="#accordionExample">
+                      <?php 
+                      $arraydetailcategory = $classcategory->getAllDetail($conn,$i);
+                      for($j=1;$j<=sizeof($arraydetailcategory);$j++)
+                      {
+                      ?>                        
+                          <div class="accordion-body">
+                            <a class="btn" href="category.php?filter-detail=<?php echo $arraydetailcategory[$j]['Filter']?>" class=item__link><?php echo $arraydetailcategory[$j]['Name']?></a>
+                          </div>                       
+                      <?php } ?>
+                      </div>
                   </div>
-                  <div class="filter__price">
-                     <span class="filter__price-title">Khoảng giá</span>
-                     <div class="wrap-filter__price">
-                        <input type="text" name="first price" id="first-price">
-                        <span> - </span>
-                        <input type="text" name="last price" id="last-price">
-                     </div>
+                  <?php 
+                  } 
+                  ?>   
                   </div>
                </div>
                <div class="list-product col l-9-6">
@@ -159,7 +163,7 @@ $url = $current_url[0];
                               <div class="product-name"><?php echo $productarray[$i]['Name'];?></div>
                               <div class="product-brand"><?php echo $detailproductarray['Brand'];?></div>
                               <div class="price">
-                                 <span class="product-price">đ</span>
+                                 <small><?php echo $productarray[$i]['Sold']?> sản phẩm đã bán</small>
                                  <span class="product-price-sale"><?php echo number_format($productarray[$i]['Price']);?>đ</span>
                               </div>
                            </div>
@@ -262,7 +266,7 @@ $url = $current_url[0];
                           <div class="product-name"><?php echo $productarrayhistory['Name'];?></div>
                           <div class="product-brand"><?php echo $detailproductarrayhistory['Brand'];?></div>
                           <div class="price">
-                             <span class="product-price">đ</span>
+                             <small><?php echo $productarrayhistory['Sold']?> sản phẩm đã bán</small>
                              <span class="product-price-sale"><?php echo number_format($productarrayhistory['Price']);?>đ</span>
                           </div>
                        </div>

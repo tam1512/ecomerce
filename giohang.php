@@ -130,7 +130,7 @@ require_once("class/order.php");
                           <div class="product-name"><?php echo $productarrayhistory['Name'];?></div>
                           <div class="product-brand"><?php echo $detailproductarrayhistory['Brand'];?></div>
                           <div class="price">
-                             <span class="product-price">đ</span>
+                             <small><?php echo $productarrayhistory['Sold']?> sản phẩm đã bán</small>
                              <span class="product-price-sale"><?php echo number_format($productarrayhistory['Price']);?>đ</span>
                           </div>
                        </div>

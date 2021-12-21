@@ -133,7 +133,7 @@ $url = $current_url[0];
                               <div class="product-name"><?php echo $productarray['Name'];?></div>
                               <div class="product-brand"><?php echo $detailproductarray['Brand'];?></div>
                               <div class="price">
-                                 <span class="product-price">đ</span>
+                                 <small><?php echo $productarray['Sold']?> sản phẩm đã bán</small>
                                  <span class="product-price-sale"><?php echo number_format($productarray['Price']);?>đ</span>
                               </div>
                            </div>

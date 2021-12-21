@@ -246,10 +246,73 @@ if(isset($_POST['comment-btn']))
 	}
 	else
 	{
-        $sqlcomment = "INSERT INTO comments(IDProduct, IDUser, Comments, Rating, Postdate) VALUES(?,?,?,?,?);";
+        if($_FILES['reviewimage']['size'] == 0)
+        {
+        $sqlcomment = "INSERT INTO comments(IDProduct, IDUser, Comments, Rating, Image, Postdate) VALUES(?,?,?,?,'',?);";
         $stmt = $conn->prepare($sqlcomment);
         $stmt->bind_param('sssss',$IDProduct, $IDUser, $comment, $rating, $timetoday);
         $stmt->execute();
+        echo "<script type='text/javascript'>alert('Bạn đã đánh giá thành công!');</script>";
+        }
+        else
+        {
+          $target_dir = "assets/img/comment/";
+          $target_file = $target_dir . basename($_FILES["reviewimage"]["name"]);
+          $uploadOk = 1;
+          $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+          $check = getimagesize($_FILES["reviewimage"]["tmp_name"]);
+          if($check !== false) 
+          {
+            if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) 
+	        {
+                echo "<script type='text/javascript'>alert('Chỉ chấp nhận file JPG, JPEG, PNG & GIF.');</script>";
+		        $uploadOk = 0;
+	        }
+		        else
+		        {
+			        if (file_exists($target_file)) 
+			        {
+                      echo "<script type='text/javascript'>alert('File của bạn đã tồn tại.');</script>";
+			          $uploadOk = 0;
+			        }
+			        else
+			        {
+				        if ($_FILES["reviewimage"]["size"] > 2000000) 
+				        {
+                          echo "<script type='text/javascript'>alert('File của bạn quá lớn (>2mb)');</script>";
+				          $uploadOk = 0;
+				        }
+				        else
+				        {
+					        if ($uploadOk == 0) 
+					        {
+                              echo "<script type='text/javascript'>alert('Có lỗi xảy ra khi tải ảnh lên.');</script>";
+					        } 
+					        else 
+					        {	  
+						          if (move_uploaded_file($_FILES["reviewimage"]["tmp_name"], $target_file)) 
+						          {
+                                    $sqlcomment = "INSERT INTO comments(IDProduct, IDUser, Comments, Rating, Image, Postdate) VALUES(?,?,?,?,?,?);";
+                                    $stmt = $conn->prepare($sqlcomment);
+                                    $stmt->bind_param('ssssss',$IDProduct, $IDUser, $comment, $rating,$target_file, $timetoday);
+                                    $stmt->execute();			
+                                    echo "<script type='text/javascript'>alert('Bạn đã đánh giá thành công!');</script>";
+						          } 
+						          else 
+						          {
+                                    echo "<script type='text/javascript'>alert('Có lỗi xảy ra khi tải ảnh lên.');</script>";
+						          }
+					        }
+				        }
+			        }
+		        }
+	          } 
+	      else 
+	      {
+            echo "<script type='text/javascript'>alert('File bạn tải không phải là hình ảnh');</script>";
+		    $uploadOk = 0;
+	      }
+        }   
     } 
 }
 if(isset($_GET['product-id']))
@@ -320,14 +383,27 @@ if(isset($_POST['checkout-btn']))
         {
         $timetoday = time();
         $shiptype = $_POST['shiptype'];	
-
+        $giftcode = '0';
+        if(isset($_POST['giftcode']))
+        {
+            $giftcode=$_POST['giftcode'];
+            $arraygiftcode = $classorder->getGiftCodeByID($conn,$_POST['giftcode']);
+            if($_POST['giftcode']=="1")
+            {
+                $total = $total - 25000;
+            }
+            else if($_POST['giftcode']!="1")
+            {
+                $total = $total - ($total*($arraygiftcode['ValueCode']/100));
+            }
+        }
 	    $sqlcheckorderid = "SELECT * FROM orders;";
 	    $stmt = $conn->prepare($sqlcheckorderid);
 	    $stmt->execute();
 	    $result = $stmt->get_result();
 	    $rowtoinsert = mysqli_num_rows($result)+1;
 
-        $order = array("ID"=>$rowtoinsert,"IDUser"=>$khachhang,"Fullname"=>$fullname,"Address"=>$address,"Email"=>$email,"Phonenumber"=>$phonenumber,"Total"=>$total,"Note"=>$note,"Orderdate"=>$timetoday,"Shiptype"=>$shiptype);
+        $order = array("ID"=>$rowtoinsert,"IDUser"=>$khachhang,"Fullname"=>$fullname,"Address"=>$address,"Email"=>$email,"Phonenumber"=>$phonenumber,"Total"=>$total,"Note"=>$note,"Orderdate"=>$timetoday,"GiftCode"=>$giftcode,"Shiptype"=>$shiptype);
 	    $insertdetailarray = array();
 	    for($i=0;$i<sizeof($_SESSION['cart']);$i++)
 	    {
@@ -348,11 +424,12 @@ if(isset($_POST['checkout-btn']))
         if($classaccount->checkPhoneNumber($phonenumber))
         {
         $address = $_POST['address'];	        
-        $khachhang = "Unknown";
+        $khachhang = "0";
         $email = $_POST['email']; 
         $note = $_POST['note'];
         $timetoday = time();
         $shiptype = $_POST['shiptype'];	
+        $giftcode = '0';
 
 	    $sqlcheckorderid = "SELECT * FROM orders;";
 	    $stmt = $conn->prepare($sqlcheckorderid);
@@ -360,7 +437,7 @@ if(isset($_POST['checkout-btn']))
 	    $result = $stmt->get_result();
 	    $rowtoinsert = mysqli_num_rows($result)+1;
 
-        $order = array("ID"=>$rowtoinsert,"IDUser"=>$khachhang,"Fullname"=>$fullname,"Address"=>$address,"Email"=>$email,"Phonenumber"=>$phonenumber,"Total"=>$total,"Note"=>$note,"Orderdate"=>$timetoday,"Shiptype"=>$shiptype);
+        $order = array("ID"=>$rowtoinsert,"IDUser"=>$khachhang,"Fullname"=>$fullname,"Address"=>$address,"Email"=>$email,"Phonenumber"=>$phonenumber,"Total"=>$total,"Note"=>$note,"Orderdate"=>$timetoday,"GiftCode"=>$giftcode,"Shiptype"=>$shiptype);
 	    $insertdetailarray = array();
 	    for($i=0;$i<sizeof($_SESSION['cart']);$i++)
 	    {

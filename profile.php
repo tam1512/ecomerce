@@ -91,7 +91,7 @@ require_once("controller/authController.php");
 					  <div class="product-name"><?php echo $productarrayhistory['Name'];?></div>
 					  <div class="product-brand"><?php echo $detailproductarrayhistory['Brand'];?></div>
 					  <div class="price">
-						 <span class="product-price">đ</span>
+						 <small><?php echo $productarrayhistory['Sold']?> sản phẩm đã bán</small>
 						 <span class="product-price-sale"><?php echo number_format($productarrayhistory['Price']);?>đ</span>
 					  </div>
 				   </div>
@@ -99,7 +99,7 @@ require_once("controller/authController.php");
 			 </div>   
 		  <?php }} } 
 		  else {?>
-			<h5>Chưa có lịch sử</h5>
+			<h5 class="py-5 my-2">Lịch sử trống</h5>
 		  <?php } ?>
 		  </div>
       </div>

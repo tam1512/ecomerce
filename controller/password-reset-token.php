@@ -1,5 +1,6 @@
 <?php 
-require_once 'authController.php';
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+require_once 'class/database.php';
 require_once 'class/maildb.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;

@@ -200,10 +200,28 @@ require_once("class/order.php");
                     </div>
                     <div class="col col-10"><?php echo $arrayaccount['Fullname']?> - <?php echo $classaccount->converttimedate($arraycomment[$i]['Postdate']) ?> </div>
                 </div>
+                <?php 
+                if($arraycomment[$i]['Image']!="")
+                {
+                  ?>
+                    <div class="row my-3">
+                        <div class="col col-2">
+                            <img src="<?php echo $arraycomment[$i]['Image'] ?>" class="img-fluid">
+                        </div>
+                        <div class="col col-10">
+                        <div class="container py-3"><?php echo $arraycomment[$i]['Comments']?></div>
+                        </div>
+                    </div>
+                <?php 
+                }
+                else if($arraycomment[$i]['Image']=="")
+                { 
+                ?>               
                 <div class="row my-3">
                     <div class="container"><?php echo $arraycomment[$i]['Comments']?></div>
                 </div>
-            <?php } ?>
+            <?php } 
+            }?>
             </div>
         </div>
         <hr>
@@ -211,35 +229,107 @@ require_once("class/order.php");
       <div class="feedback-product container">
             <h2 class="feedback-title mt-20">Đánh giá sản phẩm</h2>
             <?php if(isset($_SESSION['Fullname']))
-            { ?>
-            <form method="post" name="comment-form">
-            <div class="row">
-            <input type="text" name="idproduct" id="idproduct" value="<?php echo $_GET['product-id']?>" hidden>
-            <input type="text" name="iduser" id="iduser" value="<?php echo $_SESSION['ID']?>" hidden>
-            <small style="color:red"><?php echo $error ?></small>
-            <div class="container d-flex justify-content-left" style="padding: 0">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="stars">
-                            <input class="star star-5" type="radio" id="star-5" name="rating" value="5"  /> <label class="star star-5" for="star-5"></label> 
-                            <input class="star star-4" type="radio" id="star-4" name="rating" value="4" /> <label class="star star-4" for="star-4"></label> 
-                            <input class="star star-3" type="radio" id="star-3" name="rating" value="3" /> <label class="star star-3" for="star-3"></label> 
-                            <input class="star star-2" type="radio" id="star-2" name="rating" value="2" /> <label class="star star-2" for="star-2"></label> 
-                            <input class="star star-1" type="radio" id="star-1" name="rating" value="1" /> <label class="star star-1" for="star-1"></label>
+            { 
+                if($classproduct->checkBought($conn,$_SESSION['ID'],$_GET['product-id']))
+                {
+                    if($classproduct->getReviewByUserID ($conn, $_SESSION['ID'],$_GET['product-id']))
+                    {
+                    $arrayuserreview = $classproduct->getReviewByUserID ($conn, $_SESSION['ID'],$_GET['product-id']); 
+                    ?>
+                    <div class="container my-2">
+                    <div class="row my-4">
+                       <div class="col col-2">
+                           <div class="rating-star">
+                           <?php 
+                           for($j=1;$j<=5;$j++)
+                           {
+                             if($j>$arrayuserreview['Rating']) 
+                             { ?>                           
+                                 <img src="assets/img/icon/starblank.png" style="height:24px, width: 24px"> 
+                             <?php 
+                             }
+                             else
+                             {
+                             ?>
+                                 <img src="assets/img/icon/star.png" style="height:24px, width: 24px">
+                             <?php
+                             }
+                            } 
+                            ?>
+                          </div>
+                      </div>
+                      <div class="col col-10">
+                        <?php echo $_SESSION['Fullname']?> - <?php echo $classaccount->converttimedate($arrayuserreview['Postdate']) ?> 
+                      </div>                      
+                    </div>
+                    <?php 
+                    if($arrayuserreview['Image']!="")
+                    {
+                    ?>
+                        <div class="row my-4">
+                            <div class="col col-3">
+                                <img src="<?php echo $arrayuserreview['Image'] ?>" class="img-fluid">
+                            </div>
+                            <div class="col col-9">
+                            <div class="container border py-5"><?php echo $arrayuserreview['Comments']?></div>
+                            </div>
                         </div>
+                    <?php }
+                    else if($arrayuserreview['Image']=="")
+                    {?>
+                        <div class="row my-3 border py-5">
+                            <div class="container"><?php echo $arrayuserreview['Comments']?></div>
+                        </div>
+                    <?php }?>
+                    </div>
+                <?php 
+                    }
+                    else
+                    { ?>
+                    <form method="post" name="comment-form" enctype="multipart/form-data">
+                    <div class="row">
+                    <input type="text" name="idproduct" id="idproduct" value="<?php echo $_GET['product-id']?>" hidden>
+                    <input type="text" name="iduser" id="iduser" value="<?php echo $_SESSION['ID']?>" hidden>
+                    <small style="color:red"><?php echo $error ?></small>
+                    <div class="container d-flex justify-content-left" style="padding: 0">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="stars">
+                                    <input class="star star-5" type="radio" id="star-5" name="rating" value="5"  /> <label class="star star-5" for="star-5"></label> 
+                                    <input class="star star-4" type="radio" id="star-4" name="rating" value="4" /> <label class="star star-4" for="star-4"></label> 
+                                    <input class="star star-3" type="radio" id="star-3" name="rating" value="3" /> <label class="star star-3" for="star-3"></label> 
+                                    <input class="star star-2" type="radio" id="star-2" name="rating" value="2" /> <label class="star star-2" for="star-2"></label> 
+                                    <input class="star star-1" type="radio" id="star-1" name="rating" value="1" /> <label class="star star-1" for="star-1"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="row">
+                        <input type="file" class="form-control" id="reviewimage" name="reviewimage">
+                    </div>
+                    <div class="row">
+                        <textarea class="form-control" id="comment" name="comment" rows="5" placeholder="Viết bình luận dưới tên <?php echo $_SESSION['Fullname']?>"></textarea>
+                    </div>
+                    <div class="row">
+                        <button type="submit" class="btn btn-primary mt-20" name="comment-btn" id="comment-btn">Gửi</button>   
+                    </div>
+                    </form>
+                    <?php }
+                }
+                else
+                { 
+                ?>
+                <div class="container my-2">
+                    <div class="row">
+                        <textarea class="form-control" id="comment" name="comment" rows="5" placeholder="Hãy mua sản phẩm này để review" disabled></textarea>
                     </div>
                 </div>
-            </div>           
-            <div class="row">
-                <textarea class="form-control" id="comment" name="comment" rows="5" placeholder="Viết bình luận dưới tên <?php echo $_SESSION['Fullname']?>"></textarea>
-            </div>
-            <div class="row">
-                <button type="submit" class="btn btn-primary mt-20" name="comment-btn" id="comment-btn">Gửi</button>   
-            </div>
-            </form>   
-            <?php }
+                <?php
+                }
+            }
             if(!isset($_SESSION['Fullname']))
-            { ?>
+            { 
+            ?>
             <div class="container my-2">
                 <div class="row">
                     <textarea class="form-control" id="comment" name="comment" rows="5" placeholder="Hãy đăng nhập để review" disabled></textarea>
@@ -276,7 +366,7 @@ require_once("class/order.php");
                           <div class="product-name"><?php echo $productarrayhistory['Name'];?></div>
                           <div class="product-brand"><?php echo $detailproductarrayhistory['Brand'];?></div>
                           <div class="price">
-                             <span class="product-price">đ</span>
+                             <small><?php echo $productarrayhistory['Sold']?> sản phẩm đã bán</small>
                              <span class="product-price-sale"><?php echo number_format($productarrayhistory['Price']);?>đ</span>
                           </div>
                        </div>
@@ -293,5 +383,4 @@ require_once("class/order.php");
       </div>            
    </div>  
 </body>
-
 </html>
