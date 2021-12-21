@@ -78,6 +78,24 @@ require_once("class/order.php");
                     $total=$total + $s;
                 }
                 ?>
+                <?php 
+                if($orderarray['IDGiftCode']==0)
+                { ?>
+                    <div class="row my-4">
+                        <div class="col col-8"><b>Thành tiền:</b></div>
+                        <div class="col col-4"><?php echo number_format($total) ?></div>
+                    </div>
+                    <div class="row my-4">
+                        <div class="col col-8"><b>Phí ship:</b></div>
+                        <div class="col col-4"><?php echo number_format(25000); $total = $total+25000;?></div>                     
+                    </div><hr>
+                    <div class="row my-4">
+                        <div class="col col-8"><b>Thành tiền sau giảm giá:</b></div>
+                            <div class="col col-4"><?php echo number_format($total) ?></div>                     
+                    </div><hr>
+                <?php }
+                else 
+                {?>
                     <div class="row my-4">
                         <div class="col col-8"><b>Thành tiền:</b></div>
                         <div class="col col-4"><?php echo number_format($total) ?></div>
@@ -108,6 +126,7 @@ require_once("class/order.php");
                             <div class="col col-4"><?php echo number_format($total-($total*($ordergiftcode['ValueCode']/100))) ?></div>
                         <?php } ?>                        
                     </div><hr>
+                    <?php } ?>
                 </div>
             </div> 
             <a href="order-list.php" class="btn btn-danger py-2"> < Quay lại</a>
