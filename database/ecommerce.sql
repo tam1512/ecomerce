@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 21, 2021 at 11:39 AM
--- Server version: 10.4.18-MariaDB
--- PHP Version: 8.0.3
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th12 21, 2021 lúc 12:24 PM
+-- Phiên bản máy phục vụ: 10.4.17-MariaDB
+-- Phiên bản PHP: 7.3.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `ecommerce`
+-- Cơ sở dữ liệu: `ecommerce`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `address`
+-- Cấu trúc bảng cho bảng `address`
 --
 
 CREATE TABLE `address` (
@@ -38,7 +38,7 @@ CREATE TABLE `address` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `address`
+-- Đang đổ dữ liệu cho bảng `address`
 --
 
 INSERT INTO `address` (`ID`, `IDUser`, `Fullname`, `Address`, `Phonenumber`, `Type`, `Defaults`) VALUES
@@ -47,7 +47,7 @@ INSERT INTO `address` (`ID`, `IDUser`, `Fullname`, `Address`, `Phonenumber`, `Ty
 -- --------------------------------------------------------
 
 --
--- Table structure for table `category`
+-- Cấu trúc bảng cho bảng `category`
 --
 
 CREATE TABLE `category` (
@@ -57,7 +57,7 @@ CREATE TABLE `category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `category`
+-- Đang đổ dữ liệu cho bảng `category`
 --
 
 INSERT INTO `category` (`ID`, `Name`, `filter`) VALUES
@@ -69,7 +69,7 @@ INSERT INTO `category` (`ID`, `Name`, `filter`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `category_size`
+-- Cấu trúc bảng cho bảng `category_size`
 --
 
 CREATE TABLE `category_size` (
@@ -79,7 +79,7 @@ CREATE TABLE `category_size` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `category_size`
+-- Đang đổ dữ liệu cho bảng `category_size`
 --
 
 INSERT INTO `category_size` (`ID`, `IDCategory`, `Name`) VALUES
@@ -99,7 +99,7 @@ INSERT INTO `category_size` (`ID`, `IDCategory`, `Name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comments`
+-- Cấu trúc bảng cho bảng `comments`
 --
 
 CREATE TABLE `comments` (
@@ -113,7 +113,7 @@ CREATE TABLE `comments` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `comments`
+-- Đang đổ dữ liệu cho bảng `comments`
 --
 
 INSERT INTO `comments` (`ID`, `IDProduct`, `IDUser`, `Comments`, `Rating`, `Image`, `Postdate`) VALUES
@@ -126,7 +126,7 @@ INSERT INTO `comments` (`ID`, `IDProduct`, `IDUser`, `Comments`, `Rating`, `Imag
 -- --------------------------------------------------------
 
 --
--- Table structure for table `detail_category`
+-- Cấu trúc bảng cho bảng `detail_category`
 --
 
 CREATE TABLE `detail_category` (
@@ -137,7 +137,7 @@ CREATE TABLE `detail_category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `detail_category`
+-- Đang đổ dữ liệu cho bảng `detail_category`
 --
 
 INSERT INTO `detail_category` (`ID`, `IDCategory`, `Name`, `filter`) VALUES
@@ -159,7 +159,7 @@ INSERT INTO `detail_category` (`ID`, `IDCategory`, `Name`, `filter`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `detail_order`
+-- Cấu trúc bảng cho bảng `detail_order`
 --
 
 CREATE TABLE `detail_order` (
@@ -172,7 +172,7 @@ CREATE TABLE `detail_order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `detail_order`
+-- Đang đổ dữ liệu cho bảng `detail_order`
 --
 
 INSERT INTO `detail_order` (`ID`, `IDOrder`, `IDProduct`, `Price`, `Quantity`, `Size`) VALUES
@@ -194,7 +194,7 @@ INSERT INTO `detail_order` (`ID`, `IDOrder`, `IDProduct`, `Price`, `Quantity`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `detail_product`
+-- Cấu trúc bảng cho bảng `detail_product`
 --
 
 CREATE TABLE `detail_product` (
@@ -206,7 +206,7 @@ CREATE TABLE `detail_product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `detail_product`
+-- Đang đổ dữ liệu cho bảng `detail_product`
 --
 
 INSERT INTO `detail_product` (`ID`, `IDProduct`, `Brand`, `Image1`, `Image2`) VALUES
@@ -233,7 +233,7 @@ INSERT INTO `detail_product` (`ID`, `IDProduct`, `Brand`, `Image1`, `Image2`) VA
 -- --------------------------------------------------------
 
 --
--- Table structure for table `detail_product_size_quantity`
+-- Cấu trúc bảng cho bảng `detail_product_size_quantity`
 --
 
 CREATE TABLE `detail_product_size_quantity` (
@@ -244,7 +244,7 @@ CREATE TABLE `detail_product_size_quantity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `detail_product_size_quantity`
+-- Đang đổ dữ liệu cho bảng `detail_product_size_quantity`
 --
 
 INSERT INTO `detail_product_size_quantity` (`ID`, `Size`, `IDDetailProduct`, `Quantity`) VALUES
@@ -310,7 +310,7 @@ INSERT INTO `detail_product_size_quantity` (`ID`, `Size`, `IDDetailProduct`, `Qu
 -- --------------------------------------------------------
 
 --
--- Table structure for table `giftcode`
+-- Cấu trúc bảng cho bảng `giftcode`
 --
 
 CREATE TABLE `giftcode` (
@@ -321,7 +321,7 @@ CREATE TABLE `giftcode` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `giftcode`
+-- Đang đổ dữ liệu cho bảng `giftcode`
 --
 
 INSERT INTO `giftcode` (`ID`, `Name`, `GiftCode`, `ValueCode`) VALUES
@@ -332,7 +332,7 @@ INSERT INTO `giftcode` (`ID`, `Name`, `GiftCode`, `ValueCode`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `giftcode_user`
+-- Cấu trúc bảng cho bảng `giftcode_user`
 --
 
 CREATE TABLE `giftcode_user` (
@@ -342,7 +342,7 @@ CREATE TABLE `giftcode_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `giftcode_user`
+-- Đang đổ dữ liệu cho bảng `giftcode_user`
 --
 
 INSERT INTO `giftcode_user` (`ID`, `IDGiftCode`, `IDUser`) VALUES
@@ -352,7 +352,7 @@ INSERT INTO `giftcode_user` (`ID`, `IDGiftCode`, `IDUser`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orders`
+-- Cấu trúc bảng cho bảng `orders`
 --
 
 CREATE TABLE `orders` (
@@ -371,7 +371,7 @@ CREATE TABLE `orders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `orders`
+-- Đang đổ dữ liệu cho bảng `orders`
 --
 
 INSERT INTO `orders` (`ID`, `IDUser`, `Fullname`, `Address`, `Email`, `Phonenumber`, `Total`, `Note`, `Orderdate`, `Ordertype`, `IDGiftCode`, `State`) VALUES
@@ -391,7 +391,7 @@ INSERT INTO `orders` (`ID`, `IDUser`, `Fullname`, `Address`, `Email`, `Phonenumb
 -- --------------------------------------------------------
 
 --
--- Table structure for table `product`
+-- Cấu trúc bảng cho bảng `product`
 --
 
 CREATE TABLE `product` (
@@ -407,7 +407,7 @@ CREATE TABLE `product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `product`
+-- Đang đổ dữ liệu cho bảng `product`
 --
 
 INSERT INTO `product` (`ID`, `Name`, `Price`, `Description`, `IDCategory`, `IDDetailCategory`, `IDSale`, `newArrival`, `Sold`) VALUES
@@ -434,7 +434,7 @@ INSERT INTO `product` (`ID`, `Name`, `Price`, `Description`, `IDCategory`, `IDDe
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Cấu trúc bảng cho bảng `users`
 --
 
 CREATE TABLE `users` (
@@ -443,6 +443,8 @@ CREATE TABLE `users` (
   `Password` varchar(255) DEFAULT NULL,
   `Fullname` varchar(255) NOT NULL,
   `Phonenumber` varchar(10) DEFAULT NULL,
+  `Address` varchar(225) NOT NULL,
+  `permission` tinyint(1) NOT NULL DEFAULT 0,
   `regdate` bigint(20) DEFAULT NULL,
   `lastlogin` bigint(20) DEFAULT NULL,
   `totp` varchar(32) DEFAULT NULL,
@@ -451,175 +453,187 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `users`
+-- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`ID`, `Email`, `Password`, `Fullname`, `Phonenumber`, `regdate`, `lastlogin`, `totp`, `token`, `exp_date`) VALUES
-(1, 'kahn12345678@gmail.com', '$SHA$86a53e46b5e4d38d$748fb28348814b48d0ed798b5ad9eedf1c6f716962abbad63faf29797a310ce4', 'Nguyễn Lim Thái Hồ', '0703870950', 1633709541, 1640083143, NULL, '', ''),
-(4, NULL, '$SHA$71bb65337e8d402b$d58a041a9808fb3aaf2720b051f76b5f08e2ef0dbae82edb73348d9bae13c9f4', 'Nguyen Lim Thai Ho', NULL, 1633947405, 1633947414, NULL, NULL, NULL),
-(5, 'kahn@gmail.com', '$SHA$86e1421681a72090$e93dae7f48bffbb33c9bbbdf960416ea13fbe044aeab5d166c0d8f727e3b8d94', 'Bùi Khánh Vân', NULL, 1639033918, 1639424053, NULL, NULL, NULL),
-(6, 'kahn1234567@gmail.com', '$SHA$5d0c712816c164e6$3e5c9fa1f533bda3d47704b8d169068d5c3962ef5e8df6ae3613b53c9e0afb46', 'Lim Tae Min', NULL, 1639183126, 1639183220, NULL, NULL, NULL),
-(7, 'admin@gmail.com', '$SHA$886ea2eddac03a20$6bbe2c96cfde249bbf8bf99357577ffd56ba7bd2c11266e64a5f55e9c9d62619', 'Lim Tae Min', NULL, 1640033809, 1640033813, NULL, NULL, NULL);
+INSERT INTO `users` (`ID`, `Email`, `Password`, `Fullname`, `Phonenumber`, `Address`, `permission`, `regdate`, `lastlogin`, `totp`, `token`, `exp_date`) VALUES
+(1, 'kahn12345678@gmail.com', '$SHA$86a53e46b5e4d38d$748fb28348814b48d0ed798b5ad9eedf1c6f716962abbad63faf29797a310ce4', 'Nguyễn Lim Thái Hồ', '0703870950', '', 0, 1633709541, 1640083143, NULL, '', ''),
+(4, NULL, '$SHA$71bb65337e8d402b$d58a041a9808fb3aaf2720b051f76b5f08e2ef0dbae82edb73348d9bae13c9f4', 'Nguyen Lim Thai Ho', NULL, '', 0, 1633947405, 1633947414, NULL, NULL, NULL),
+(5, 'kahn@gmail.com', '$SHA$86e1421681a72090$e93dae7f48bffbb33c9bbbdf960416ea13fbe044aeab5d166c0d8f727e3b8d94', 'Bùi Khánh Vân', NULL, '', 0, 1639033918, 1639424053, NULL, NULL, NULL),
+(6, 'kahn1234567@gmail.com', '$SHA$5d0c712816c164e6$3e5c9fa1f533bda3d47704b8d169068d5c3962ef5e8df6ae3613b53c9e0afb46', 'Lim Tae Min', NULL, '', 0, 1639183126, 1639183220, NULL, NULL, NULL),
+(7, 'admin@gmail.com', '$SHA$886ea2eddac03a20$6bbe2c96cfde249bbf8bf99357577ffd56ba7bd2c11266e64a5f55e9c9d62619', 'Lim Tae Min', NULL, '', 0, 1640033809, 1640033813, NULL, NULL, NULL);
 
 --
--- Indexes for dumped tables
+-- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Indexes for table `address`
+-- Chỉ mục cho bảng `address`
 --
 ALTER TABLE `address`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `IDUser` (`IDUser`);
 
 --
--- Indexes for table `category`
+-- Chỉ mục cho bảng `category`
 --
 ALTER TABLE `category`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `category_size`
+-- Chỉ mục cho bảng `category_size`
 --
 ALTER TABLE `category_size`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `comments`
+-- Chỉ mục cho bảng `comments`
 --
 ALTER TABLE `comments`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `detail_category`
+-- Chỉ mục cho bảng `detail_category`
 --
 ALTER TABLE `detail_category`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `detail_order`
+-- Chỉ mục cho bảng `detail_order`
 --
 ALTER TABLE `detail_order`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `detail_product`
+-- Chỉ mục cho bảng `detail_product`
 --
 ALTER TABLE `detail_product`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `detail_product_size_quantity`
+-- Chỉ mục cho bảng `detail_product_size_quantity`
 --
 ALTER TABLE `detail_product_size_quantity`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `giftcode`
+-- Chỉ mục cho bảng `giftcode`
 --
 ALTER TABLE `giftcode`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `giftcode_user`
+-- Chỉ mục cho bảng `giftcode_user`
 --
 ALTER TABLE `giftcode_user`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `orders`
+-- Chỉ mục cho bảng `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `product`
+-- Chỉ mục cho bảng `product`
 --
 ALTER TABLE `product`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `users`
+-- Chỉ mục cho bảng `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`ID`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT cho các bảng đã đổ
 --
 
 --
--- AUTO_INCREMENT for table `address`
+-- AUTO_INCREMENT cho bảng `address`
 --
 ALTER TABLE `address`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
--- AUTO_INCREMENT for table `category_size`
+-- AUTO_INCREMENT cho bảng `category`
+--
+ALTER TABLE `category`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT cho bảng `category_size`
 --
 ALTER TABLE `category_size`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT for table `comments`
+-- AUTO_INCREMENT cho bảng `comments`
 --
 ALTER TABLE `comments`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- AUTO_INCREMENT for table `detail_category`
+-- AUTO_INCREMENT cho bảng `detail_category`
 --
 ALTER TABLE `detail_category`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT for table `detail_order`
+-- AUTO_INCREMENT cho bảng `detail_order`
 --
 ALTER TABLE `detail_order`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
--- AUTO_INCREMENT for table `detail_product`
+-- AUTO_INCREMENT cho bảng `detail_product`
 --
 ALTER TABLE `detail_product`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT for table `detail_product_size_quantity`
+-- AUTO_INCREMENT cho bảng `detail_product_size_quantity`
 --
 ALTER TABLE `detail_product_size_quantity`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
--- AUTO_INCREMENT for table `giftcode`
+-- AUTO_INCREMENT cho bảng `giftcode`
 --
 ALTER TABLE `giftcode`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `giftcode_user`
+-- AUTO_INCREMENT cho bảng `giftcode_user`
 --
 ALTER TABLE `giftcode_user`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `product`
+-- AUTO_INCREMENT cho bảng `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- Constraints for dumped tables
+-- Các ràng buộc cho các bảng đã đổ
 --
 
 --
--- Constraints for table `address`
+-- Các ràng buộc cho bảng `address`
 --
 ALTER TABLE `address`
   ADD CONSTRAINT `address_ibfk_1` FOREIGN KEY (`IDUser`) REFERENCES `users` (`ID`);
