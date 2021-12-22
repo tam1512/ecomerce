@@ -248,7 +248,7 @@ if(isset($_POST['comment-btn']))
 	{
         if($_FILES['reviewimage']['size'] == 0)
         {
-        $sqlcomment = "INSERT INTO comments(IDProduct, IDUser, Comments, Rating, Image, Postdate) VALUES(?,?,?,?,'',?);";
+        $sqlcomment = "INSERT INTO comments(IDProduct, IDUser, Comments, Rating, Image, Postdate,State) VALUES(?,?,?,?,'',?,'0');";
         $stmt = $conn->prepare($sqlcomment);
         $stmt->bind_param('sssss',$IDProduct, $IDUser, $comment, $rating, $timetoday);
         $stmt->execute();
@@ -292,7 +292,7 @@ if(isset($_POST['comment-btn']))
 					        {	  
 						          if (move_uploaded_file($_FILES["reviewimage"]["tmp_name"], $target_file)) 
 						          {
-                                    $sqlcomment = "INSERT INTO comments(IDProduct, IDUser, Comments, Rating, Image, Postdate) VALUES(?,?,?,?,?,?);";
+                                    $sqlcomment = "INSERT INTO comments(IDProduct, IDUser, Comments, Rating, Image, Postdate,State) VALUES(?,?,?,?,?,?,'0');";
                                     $stmt = $conn->prepare($sqlcomment);
                                     $stmt->bind_param('ssssss',$IDProduct, $IDUser, $comment, $rating,$target_file, $timetoday);
                                     $stmt->execute();			

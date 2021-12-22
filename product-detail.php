@@ -274,7 +274,14 @@ require_once("class/order.php");
                </div>
                <div class="col col-10">
                   <?php echo $_SESSION['Fullname']?> -
-                  <?php echo $classaccount->converttimedate($arrayuserreview['Postdate']) ?>
+                  <?php echo $classaccount->converttimedate($arrayuserreview['Postdate'])?> - 
+               <?php if($arrayuserreview['State']==0) 
+                  {?>
+                  <button class="btn btn-danger">Chưa được xác nhận</button>
+                  <?php } 
+                  else {?>
+                  <button class="btn btn-success">Đã xác nhận</button>
+                  <?php } ?>
                </div>
             </div>
             <?php 

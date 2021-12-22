@@ -144,7 +144,7 @@ class product
 	}
 	public function getReview ($conn, $id)
 	{
-		$sql = "SELECT * FROM comments WHERE IDProduct=?;";
+		$sql = "SELECT * FROM comments WHERE IDProduct=? AND State!=0;";
 		$stmt = $conn->prepare($sql);
 		$stmt->bind_param('s',$id);
 		$stmt->execute();
@@ -160,6 +160,7 @@ class product
 			$array[$count]['Rating'] = $row['Rating'];	
 			$array[$count]['Image'] = $row['Image'];
 			$array[$count]['Postdate'] = $row['Postdate'];
+			$array[$count]['State'] = $row['State'];
 			$count++;
 		}  
 		return $array;
@@ -181,6 +182,7 @@ class product
 			$array['Rating'] = $row['Rating'];	
 			$array['Image'] = $row['Image'];
 			$array['Postdate'] = $row['Postdate'];
+			$array['State'] = $row['State'];
 		}  
 		return $array;
 	}
