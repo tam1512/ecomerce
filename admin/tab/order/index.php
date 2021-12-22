@@ -8,7 +8,7 @@
     <div class="col-lg-12">
       <div class="statbox widget box box-shadow">
         <div class="widget-content widget-content-area">
-          <a href="index.php?tab=apperoved_product" class="btn btn-primary mb-1" style="margin-top: 36px; margin-left: 23px"><span>Approved</span>
+          <a href="index.php?tab=approved" class="btn btn-primary mb-1" style="margin-top: 36px; margin-left: 23px"><span>Approved</span>
           </a>
           <table id="zero-config" class="table table-hover" style="width:100%">
             <thead style="border-bottom: none;">
@@ -100,34 +100,21 @@
                       </div>
                     </td>
                     <td><?= $order['Total'] ?></td>
-                    <?php
-                    if ($order['IDUser'] == 0) {
-                    ?>
-                      <td><?= $order['Fullname'] ?></td>
-                      <td><?= $order['Phonenumber'] ?></td>
-                      <td><?= $order['Address'] ?></td>
-                    <?php
-                    } else {
-                      $users = $orderController->getCustomer($order['IDUser']);
-                      $user = $users->fetch_assoc();
-                    ?>
-                      <td><?= $user['Fullname'] ?></td>
-                      <td><?= $user['Phonenumber'] ?></td>
-                      <td><?= $user['Address'] ?></td>
-                    <?php
-                    }
-                    ?>
+                    <td><?= $order['Fullname'] ?></td>
+                    <td><?= $order['Phonenumber'] ?></td>
+                    <td><?= $order['Address'] ?></td>
                     <td><?= $order['Ordertype'] ?></td>
                     <td><?= $order['Note'] ?></td>
                     <td class="text-center">
                       <ul class="table-controls">
-                        <li><a href="?tab=orders&allow_id=<?= $order['ID'] ?>" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Allow">
+                        <li><a style="cursor:pointer" class="bs-tooltip allow" onclick="Allow(<?= $order['ID'] ?>)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Allow">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle p-1 br-6 mb-1">
                               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                               <polyline points="22 4 12 14.01 9 11.01"></polyline>
                             </svg>
                           </a></li>
-                        <li><a href="?tab=orders&id=<?= $order['ID'] ?>" onclick="return confirm('Are you want to delete?')" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete">
+                        <input type="hidden" name="allow" value="<?= $order['ID'] ?>" />
+                        <li><a href="" onclick="deleteOrder(<?= $order['ID'] ?>)" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle p-1 br-6 mb-1">
                               <circle cx="12" cy="12" r="10"></circle>
                               <line x1="15" y1="9" x2="9" y2="15"></line>

@@ -31,7 +31,7 @@ class orderController
 
   public function getCustomer($id)
   {
-    $query = "SELECT * FROM users LIMIT 1";
+    $query = "SELECT * FROM users WHERE ID = '$id' LIMIT 1";
     $result = $this->db->select($query);
     return $result;
   }
@@ -90,12 +90,30 @@ class orderController
     }
   }
 
-  public function edit()
+  public function allow($id)
   {
+    $query = "UPDATE `orders` SET `State`='1' WHERE ID = '$id'";
+    $result = $this->db->update($query);
+    if ($result) {
+      $alert = '<div class="valid-feedback d-block">Successfully!</div>';
+      return $alert;
+    } else {
+      $alert = '<div class="invalid-feedback d-block">Insert fail.</div>';
+      return $alert;
+    }
   }
 
-  public function destroy()
+  public function destroy($id)
   {
+    $query = "DELETE FROM `orders` WHERE ID = '$id'";
+    $result = $this->db->delete($query);
+    if ($result) {
+      $alert = 'Successfully!';
+      return $alert;
+    } else {
+      $alert = 'Not delete!';
+      return $alert;
+    }
   }
 }
 ?>

@@ -57,7 +57,7 @@ class genreController
 
   public function edit($id)
   {
-    $query = "SELECT * FROM detail_category WHERE ID = '$id' LIMIT 1";
+    $query = "SELECT * FROM `detail_category` WHERE ID = '$id' LIMIT 1";
     $result = $this->db->select($query);
     return $result;
   }
@@ -94,16 +94,16 @@ class genreController
     $query_p = "SELECT * FROM `product` WHERE IDDetailCategory = '$genre_id'";
     $product = $this->db->select($query_p);
     if ($product) {
-      $alert = '<div style="margin-left: 23px; margin-top: 12px;" class="invalid-feedback d-block">Not delete!.</div>';
+      $alert = 'Can not delete!';
       return $alert;
     } else {
       $query = "DELETE FROM `detail_category` WHERE ID = '$genre_id'";
       $result = $this->db->delete($query);
       if ($result) {
-        $alert = '<div style="margin-left: 23px; margin-top: 12px;" class="valid-feedback d-block">Successfully!</div>';
+        $alert = 'Successfully!';
         return $alert;
       } else {
-        $alert = '<div style="margin-left: 23px; margin-top: 12px;" class="invalid-feedback d-block">Not delete!.</div>';
+        $alert = 'Can not delete!';
         return $alert;
       }
     }

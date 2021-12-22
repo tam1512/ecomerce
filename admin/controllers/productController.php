@@ -1,9 +1,9 @@
-<?php 
-  include ('./lib/database.php');
-  include ('./helpers/format.php');
+﻿<?php 
+  require_once('./lib/database.php');
+  require_once('./helpers/format.php');
 ?>
 <?php
-  class productController
+class productController
   {
 
     private $db;
@@ -14,6 +14,18 @@
       $this->db = new Database();
       $this->fm = new Format();
     }
+
+    public function connect()
+	{
+		$conn = new mysqli(DB_HOST, DB_USER,DB_PASS, DB_NAME);
+		mysqli_set_charset($conn, 'UTF8');
+		if($conn->connect_error)
+		{
+			die('Database error: ' .$conn->connect_error);
+			return false;
+		}
+		return $conn;
+	}
 
     public function index()
     {
@@ -88,4 +100,96 @@
 
     }
   }
+$productController = new productController();
+$conn = $productController->connect();
+if(isset($_POST['product-create-btn']))
+{
+    $name = $_POST['name'];
+    $price = $_POST['price'];
+    $description = $_POST['description'];
+    $detailcategory = $_POST['detailcategory'];
+    $brand = $_POST['brand'];
+        if($_FILES['image']['size'] == 0)
+        {
+        echo "<script type='text/javascript'>alert('Bạn chưa chọn hình ảnh!');</script>";
+        }
+        else
+        {
+          $target_dir = "assets/img/product/";
+          $target_file = $target_dir . basename($_FILES["image"]["name"]);
+          $uploadOk = 1;
+          $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+          $check = getimagesize($_FILES["image"]["tmp_name"]);
+          if($check !== false) 
+          {
+            if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) 
+	        {
+                echo "<script type='text/javascript'>alert('Chỉ chấp nhận file JPG, JPEG, PNG & GIF.');</script>";
+		        $uploadOk = 0;
+	        }
+		        else
+		        {
+			        if (file_exists($target_file)) 
+			        {
+                      echo "<script type='text/javascript'>alert('File của bạn đã tồn tại.');</script>";
+			          $uploadOk = 0;
+			        }
+			        else
+			        {
+				        if ($_FILES["image"]["size"] > 2000000) 
+				        {
+                          echo "<script type='text/javascript'>alert('File của bạn quá lớn (>2mb)');</script>";
+				          $uploadOk = 0;
+				        }
+				        else
+				        {
+					        if ($uploadOk == 0) 
+					        {
+                              echo "<script type='text/javascript'>alert('Có lỗi xảy ra khi tải ảnh lên.');</script>";
+					        } 
+					        else 
+					        {	  
+						          if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) 
+						          {
+
+                                    $sqldetailcategory = "SELECT * FROM detail_category WHERE ID=? LIMIT 1;";
+                                    $stmt = $conn->prepare($sqldetailcategory);             
+                                    $stmt->bind_param('s',$detailcategory);
+                                    $stmt->execute();
+                                    $result = $stmt->get_result();
+                                    $row = $result->fetch_assoc();
+                                    $category = $row['IDCategory'];
+
+                                    $sqlcheckprdid = "SELECT * FROM product;";
+	                                $stmt = $conn->prepare($sqlcheckprdid);
+	                                $stmt->execute();
+	                                $result = $stmt->get_result();
+	                                $rowtoinsert = mysqli_num_rows($result)+1;
+
+                                    $sqlproduct = "INSERT INTO product VALUES(?,?,?,?,?,?,'0','1','0');";
+                                    $stmt = $conn->prepare($sqlproduct);
+                                    $stmt->bind_param('ssssss',$rowtoinsert,$name, $price, $description,$category,$detailcategory);
+                                    $stmt->execute();
+
+                                    $sqlproduct = "INSERT INTO detail_product(IDProduct,Brand,Image1,Image2) VALUES(?,?,?,'None');";
+                                    $stmt = $conn->prepare($sqlproduct);
+                                    $stmt->bind_param('sss',$rowtoinsert, $brand, $target_file);
+                                    $stmt->execute();
+						          } 
+						          else 
+						          {
+                                    echo "<script type='text/javascript'>alert('Có lỗi xảy ra khi tải ảnh lên.');</script>";
+						          }
+					        }
+				        }
+			        }
+		        }
+	          } 
+	      else 
+	      {
+            echo "<script type='text/javascript'>alert('File bạn tải không phải là hình ảnh');</script>";
+		    $uploadOk = 0;
+	      }
+        }   
+}
 ?>

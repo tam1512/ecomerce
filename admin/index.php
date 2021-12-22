@@ -4,6 +4,7 @@ include_once('./controllers/categoryController.php');
 include_once('./controllers/genreController.php');
 include_once('./controllers/orderController.php');
 include_once('./controllers/userController.php');
+include_once('./controllers/productController.php');
 Session::checkSession();
 if (isset($_GET['tab']) && $_GET['tab'] == 'logout') {
     Session::destroy();
@@ -15,6 +16,8 @@ $categories = $categoryController->index();
 $genreController = new genreController();
 $genres = $genreController->index();
 
+$productController = new productController();
+
 $orderController = new orderController();
 $orders = $orderController->index();
 $approved = $orderController->approved();
@@ -24,34 +27,51 @@ $users = $userController->index();
 $users_locked = $userController->locked();
 
 
-if (isset($_POST['cate_name'])) {
-    $createCategory = $categoryController->store($_POST['cate_name']);
+if (isset($_POST['create_cate_name'])) {
+    $createCategory = $categoryController->store($_POST['create_cate_name']);
 }
 
-if (isset($_POST['cate_name']) && isset($_POST['cate_id'])) {
-    $updateCategory = $categoryController->update($_POST['cate_name'], $_POST['cate_id']);
-}
-
-if (isset($_GET['tab']) == 'categories' && isset($_GET['id'])) {
-    $deleteCategory = $categoryController->destroy($_GET['id']);
+if (isset($_POST['update_cate_name']) && isset($_POST['update_cate_id'])) {
+    $updateCategory = $categoryController->update($_POST['update_cate_name'], $_POST['update_cate_id']);
 }
 
 
-if (isset($_POST['size_name']) && isset($_POST['cate_id'])) {
-    $createSizeCategory = $categoryController->storeSize($_POST['size_name'], $_POST['cate_id']);
+if (isset($_POST['create_size_name']) && isset($_POST['create_cate_id'])) {
+    $createSizeCategory = $categoryController->storeSize($_POST['create_size_name'], $_POST['create_cate_id']);
 }
 
-if (isset($_POST['genre_name']) && isset($_POST['cate_id'])) {
-    $createGenre = $genreController->store($_POST['genre_name'], $_POST['cate_id']);
+if (isset($_POST['create_genre_name']) && isset($_POST['create_cate_id'])) {
+    $createGenre = $genreController->store($_POST['create_genre_name'], $_POST['create_cate_id']);
 }
 
-if (isset($_POST['genre_name']) && isset($_POST['genre_id']) && isset($_POST['cate_id'])) {
-    $updateGenre = $genreController->update($_POST['genre_name'], $_POST['genre_id'], $_POST['cate_id']);
+if (isset($_POST['update_genre_name']) && isset($_POST['update_genre_id']) && isset($_POST['update_cate_id'])) {
+    $updateGenre = $genreController->update($_POST['update_genre_name'], $_POST['update_genre_id'], $_POST['update_cate_id']);
 }
 
-if (isset($_GET['tab']) == 'genres' && isset($_GET['id'])) {
-    $deleteGenre = $genreController->destroy($_GET['id']);
+//ajax
+if (isset($_POST['cd_id'])) {
+    $deleteCategory = $categoryController->destroy($_POST['cd_id']);
+    echo $deleteCategory;
+    exit();
 }
+
+if (isset($_POST['gd_id'])) {
+    $deleteGenre = $genreController->destroy($_POST['gd_id']);
+    echo $deleteGenre;
+    exit();
+}
+
+
+if (isset($_POST['allow_id'])) {
+    $allowOrder = $orderController->allow($_POST['allow_id']);
+    exit();
+}
+if (isset($_POST['od_id'])) {
+    $deleteOrder = $orderController->destroy($_POST['od_id']);
+    echo $deleteOrder;
+    exit();
+}
+
 
 ?>
 
@@ -189,6 +209,9 @@ if (isset($_GET['tab']) == 'genres' && isset($_GET['id'])) {
                     case 'roles':
                         include('./tab/user/roles.php');
                         break;
+                    case 'create_product':
+                        include('./tab/product/create.php');
+                        break;
                     default:
                         include('home.php');
                 }
@@ -285,6 +308,75 @@ if (isset($_GET['tab']) == 'genres' && isset($_GET['id'])) {
             "lengthMenu": [5, 10, 20, 50],
             "pageLength": 5
         });
+    </script>
+    <script>
+        function Allow($id) {
+            if (confirm('Confirm this order?')) {
+                $.ajax({
+                    url: 'index.php?tab=orders',
+                    type: "POST",
+                    data: {
+                        allow_id: $id
+                    },
+                    success: function(data) {
+                        window.location.reload();
+                    }
+                })
+            }
+        }
+
+        //delete category
+        function deleteCategory($id) {
+            if (confirm('Are you want to delete?')) {
+                $.ajax({
+                    url: 'index.php?tab=categories',
+                    type: "POST",
+                    data: {
+                        cd_id: $id
+                    },
+                    success: function(data) {
+                        if (data) {
+                            alert(data);
+                        }
+                    }
+                })
+            }
+        }
+        //delete genre
+        function deleteGenre($id) {
+            if (confirm('Are you want to delete?')) {
+                $.ajax({
+                    url: 'index.php?tab=genres',
+                    type: "POST",
+                    data: {
+                        gd_id: $id
+                    },
+                    success: function(data) {
+                        if (data) {
+                            alert(data);
+                        }
+                    }
+                })
+            }
+        }
+
+        //delete order
+        function deleteOrder($id) {
+            if (confirm('Are you want to delete?')) {
+                $.ajax({
+                    url: 'index.php',
+                    type: "POST",
+                    data: {
+                        od_id: $id
+                    },
+                    success: function(data) {
+                        if (data) {
+                            alert(data);
+                        }
+                    }
+                })
+            }
+        }
     </script>
 </body>
 

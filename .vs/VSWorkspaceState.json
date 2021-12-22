@@ -1,15 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\assets",
-    "\\assets\\img\\background",
     "\\assets\\js",
-    "\\class",
-    "\\controller",
     "\\controller\\ajax",
-    "\\controller\\class",
-    "\\view"
+    "\\controller\\class"
   ],
-  "SelectedNode": "\\thanh-toan.php",
+  "SelectedNode": "\\controller",
   "PreviewInSolutionExplorer": false
 }

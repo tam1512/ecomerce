@@ -18,7 +18,7 @@
             ?>
             <div class="form-group mt-4">
               <label for="cate_name">Category</label>
-              <select class="form-control" name="cate_id">
+              <select class="form-control" name="create_cate_id">
                 <option value=""></option>
                 <?php
                 if ($categories) {
@@ -33,7 +33,7 @@
             </div>
             <div class="form-group mt-4">
               <label for="genre_name">Name</label>
-              <input type="text" class="form-control" id="genre_name" name="genre_name" placeholder="" value="" required>
+              <input type="text" class="form-control" id="genre_name" name="create_genre_name" placeholder="" value="" required>
             </div>
           </form>
         </div>

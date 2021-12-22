@@ -114,16 +114,16 @@ class categoryController
     $query_g = "SELECT * FROM `detail_category` WHERE IDCategory = '$cate_id'";
     $genres = $this->db->select($query_g);
     if ($genres) {
-      $alert = '<div style="margin-left: 23px; margin-top: 12px;" class="invalid-feedback d-block">Not delete!.</div>';
+      $alert = 'Can not delete!';
       return $alert;
     } else {
       $query = "DELETE FROM `category` WHERE ID = '$cate_id'";
       $result = $this->db->delete($query);
       if ($result) {
-        $alert = '<div style="margin-left: 23px; margin-top: 12px;" class="valid-feedback d-block">Successfully!</div>';
+        $alert = 'Successfully!';
         return $alert;
       } else {
-        $alert = '<div style="margin-left: 23px; margin-top: 12px;" class="invalid-feedback d-block">Not delete!.</div>';
+        $alert = 'Can not delete!';
         return $alert;
       }
     }
