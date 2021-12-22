@@ -1,10 +1,13 @@
 <?php
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 include('./lib/session.php');
 include_once('./controllers/categoryController.php');
+include_once('./controllers/productController.php');
 include_once('./controllers/genreController.php');
 include_once('./controllers/orderController.php');
 include_once('./controllers/userController.php');
-include_once('./controllers/productController.php');
+include_once('./controllers/commentController.php');
+include_once('./controllers/reckonController.php');
 Session::checkSession();
 if (isset($_GET['tab']) && $_GET['tab'] == 'logout') {
     Session::destroy();
@@ -18,6 +21,10 @@ $genres = $genreController->index();
 
 $productController = new productController();
 
+$commentController = new commentController();
+$comments = $commentController->index();
+$comments_approved = $commentController->approved();
+
 $orderController = new orderController();
 $orders = $orderController->index();
 $approved = $orderController->approved();
@@ -25,6 +32,9 @@ $approved = $orderController->approved();
 $userController = new userController();
 $users = $userController->index();
 $users_locked = $userController->locked();
+
+$reckonController = new reckonController();
+$reckon = $reckonController->index();
 
 
 if (isset($_POST['create_cate_name'])) {
@@ -48,7 +58,7 @@ if (isset($_POST['update_genre_name']) && isset($_POST['update_genre_id']) && is
     $updateGenre = $genreController->update($_POST['update_genre_name'], $_POST['update_genre_id'], $_POST['update_cate_id']);
 }
 
-//ajax
+//ajax delete
 if (isset($_POST['cd_id'])) {
     $deleteCategory = $categoryController->destroy($_POST['cd_id']);
     echo $deleteCategory;
@@ -61,17 +71,50 @@ if (isset($_POST['gd_id'])) {
     exit();
 }
 
-
-if (isset($_POST['allow_id'])) {
-    $allowOrder = $orderController->allow($_POST['allow_id']);
-    exit();
-}
 if (isset($_POST['od_id'])) {
     $deleteOrder = $orderController->destroy($_POST['od_id']);
     echo $deleteOrder;
     exit();
 }
 
+if (isset($_POST['commentd_id'])) {
+    $deleteComment = $commentController->destroy($_POST['commentd_id']);
+    echo $deleteComment;
+    exit();
+}
+
+//ajax allow order
+if (isset($_POST['allow_id'])) {
+    $allowOrder = $orderController->allow($_POST['allow_id']);
+    exit();
+}
+
+//ajax allow comment
+if (isset($_POST['comment_allow_id'])) {
+    $allowComment = $commentController->allow($_POST['comment_allow_id']);
+    echo $allowComment;
+    exit();
+}
+
+
+//ajax lock and unlock user
+if (isset($_POST['lock_id'])) {
+    $lockUser = $userController->lockUser($_POST['lock_id']);
+    echo $lockUser;
+    exit();
+}
+
+if (isset($_POST['unlock_id'])) {
+    $unlockUser = $userController->unlockUser($_POST['unlock_id']);
+    echo $unlockUser;
+    exit();
+}
+
+// if (isset($_POST['month'])) {
+//     $reckon = $reckonController->show($_POST['month']);
+//     echo $reckon;
+//     exit();
+// }
 
 ?>
 
@@ -191,8 +234,17 @@ if (isset($_POST['od_id'])) {
                     case 'products':
                         include('./tab/product/index.php');
                         break;
+                    case 'comments':
+                        include('./tab/comment/index.php');
+                        break;
+                    case 'comments_on_site':
+                        include('./tab/comment/onsite.php');
+                        break;
                     case 'orders':
                         include('./tab/order/index.php');
+                        break;
+                    case 'approved':
+                        include('./tab/order/approved.php');
                         break;
                     case 'approved':
                         include('./tab/order/approved.php');
@@ -206,11 +258,11 @@ if (isset($_POST['od_id'])) {
                     case 'users_locked':
                         include('./tab/user/locked.php');
                         break;
-                    case 'roles':
-                        include('./tab/user/roles.php');
-                        break;
                     case 'create_product':
                         include('./tab/product/create.php');
+                        break;
+                    case 'edit_product':
+                        include('./tab/product/edit.php');
                         break;
                     default:
                         include('home.php');
@@ -309,74 +361,8 @@ if (isset($_POST['od_id'])) {
             "pageLength": 5
         });
     </script>
+    <script src="public/assets/js/adminAjax.js"></script>
     <script>
-        function Allow($id) {
-            if (confirm('Confirm this order?')) {
-                $.ajax({
-                    url: 'index.php?tab=orders',
-                    type: "POST",
-                    data: {
-                        allow_id: $id
-                    },
-                    success: function(data) {
-                        window.location.reload();
-                    }
-                })
-            }
-        }
-
-        //delete category
-        function deleteCategory($id) {
-            if (confirm('Are you want to delete?')) {
-                $.ajax({
-                    url: 'index.php?tab=categories',
-                    type: "POST",
-                    data: {
-                        cd_id: $id
-                    },
-                    success: function(data) {
-                        if (data) {
-                            alert(data);
-                        }
-                    }
-                })
-            }
-        }
-        //delete genre
-        function deleteGenre($id) {
-            if (confirm('Are you want to delete?')) {
-                $.ajax({
-                    url: 'index.php?tab=genres',
-                    type: "POST",
-                    data: {
-                        gd_id: $id
-                    },
-                    success: function(data) {
-                        if (data) {
-                            alert(data);
-                        }
-                    }
-                })
-            }
-        }
-
-        //delete order
-        function deleteOrder($id) {
-            if (confirm('Are you want to delete?')) {
-                $.ajax({
-                    url: 'index.php',
-                    type: "POST",
-                    data: {
-                        od_id: $id
-                    },
-                    success: function(data) {
-                        if (data) {
-                            alert(data);
-                        }
-                    }
-                })
-            }
-        }
     </script>
 </body>
 

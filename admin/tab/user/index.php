@@ -12,7 +12,6 @@
                 <th>Email</th>
                 <th>Full name</th>
                 <th>Phone number</th>
-                <th>Address</th>
                 <th>Last login</th>
                 <th class="text-center">Action</th>
               </tr>
@@ -23,24 +22,30 @@
                 $i = 0;
                 while ($user = $users->fetch_assoc()) {
                   $i++;
+                  $lastLogin = date('d/m/Y - H:i:s', $user['lastlogin']);
               ?>
                   <tr>
                     <td><?= $i ?></td>
                     <td><?= $user['Email'] ?></td>
                     <td><?= $user['Fullname'] ?></td>
                     <td><?= $user['Phonenumber'] ?></td>
-                    <td><?= $user['Address'] ?></td>
-                    <td><?= $user['lastlogin'] ?></td>
+                    <td><?= $lastLogin ?></td>
                     <td class="text-center">
-                      <ul class="table-controls">
-                        <li><a href="?tab=users_locked&id=<?= $user['ID'] ?>" onclick="return confirm('Are you want to unlock?')" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Lock">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock p-1 br-6 mb-1">
-                              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                            </svg>
-                          </a>
-                        </li>
-                      </ul>
+                      <?php
+                      if ($user['permission'] != 0) {
+                      ?>
+                        <ul class="table-controls">
+                          <li><a href="" onclick="lockUser(<?= $user['ID'] ?>)" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Lock">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock p-1 br-6 mb-1">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                              </svg>
+                            </a>
+                          </li>
+                        </ul>
+                      <?php
+                      }
+                      ?>
                     </td>
                   </tr>
               <?php

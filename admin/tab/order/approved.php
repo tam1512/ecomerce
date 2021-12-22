@@ -27,10 +27,11 @@
               <?php
               if ($approved) {
                 while ($order = $approved->fetch_assoc()) {
+                  $dateOrder = date('d/m/Y - H:i:s', $order['Orderdate']);
               ?>
                   <tr>
                     <td>
-                      <a href="#" class="order-click" data-toggle="modal" data-target="#exampleModal<?= $order['ID'] ?>"><?= $order['Orderdate'] ?></a>
+                      <a href="#" class="order-click" data-toggle="modal" data-target="#exampleModal<?= $order['ID'] ?>"><?= $dateOrder ?></a>
                       <div class="modal fade" id="exampleModal<?= $order['ID'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none" aria-hidden="true">
                         <div class="modal-dialog" style="max-width: 80%;" role="document">
                           <div class="modal-content">

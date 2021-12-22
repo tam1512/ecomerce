@@ -149,7 +149,8 @@ if(isset($_POST['product-create-btn']))
 					        } 
 					        else 
 					        {	  
-						          if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) 
+                                  $fileupload = "../".$target_file;
+						          if (move_uploaded_file($_FILES["image"]["tmp_name"], $fileupload)) 
 						          {
 
                                     $sqldetailcategory = "SELECT * FROM detail_category WHERE ID=? LIMIT 1;";
@@ -191,5 +192,46 @@ if(isset($_POST['product-create-btn']))
 		    $uploadOk = 0;
 	      }
         }   
+}
+if(isset($_POST['product-edit-btn']))
+{
+    $productid = $_POST['productid'];
+    $name = $_POST['name'];
+    $price = $_POST['price'];
+    $description = $_POST['description'];
+    $detailcategory = $_POST['detailcategory'];
+    $brand = $_POST['brand'];
+
+    $sqldetailcategory = "SELECT * FROM detail_category WHERE ID=? LIMIT 1;";
+    $stmt = $conn->prepare($sqldetailcategory);             
+    $stmt->bind_param('s',$detailcategory);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $category = $row['IDCategory'];
+
+    $sqlproduct = "UPDATE product SET Name=?,Price=?,Description=?,IDCategory=?,IDDetailCategory=? WHERE ID=?;";
+    $stmt = $conn->prepare($sqlproduct);
+    $stmt->bind_param('ssssss',$name, $price, $description,$category,$detailcategory,$productid);
+    $stmt->execute();
+
+    $sqlproduct = "UPDATE detail_product SET Brand=? WHERE IDProduct=?;";
+    $stmt = $conn->prepare($sqlproduct);
+    $stmt->bind_param('ss', $brand, $productid);
+    $stmt->execute();
+}
+if(isset($_GET['delete_id']))
+{
+    $productid = $_GET['delete_id'];
+
+    $sqlproduct = "DELETE FROM product WHERE ID=?;";
+    $stmt = $conn->prepare($sqlproduct);
+    $stmt->bind_param('s',$productid);
+    $stmt->execute();
+
+    $sqlproduct = "DELETE FROM detail_product WHERE IDProduct=?;";
+    $stmt = $conn->prepare($sqlproduct);
+    $stmt->bind_param('s', $productid);
+    $stmt->execute();
 }
 ?>

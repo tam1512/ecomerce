@@ -17,7 +17,6 @@
                 <th>Email</th>
                 <th>Full name</th>
                 <th>Phone number</th>
-                <th>Address</th>
                 <th>Last login</th>
                 <th class="text-center">Action</th>
               </tr>
@@ -27,6 +26,7 @@
               if ($users_locked) {
                 $i = 0;
                 while ($user = $users_locked->fetch_assoc()) {
+                  $lastLogin = date('d/m/Y - H:i:s', $user['lastlogin']);
                   $i++;
               ?>
                   <tr>
@@ -34,11 +34,10 @@
                     <td><?= $user['Email'] ?></td>
                     <td><?= $user['Fullname'] ?></td>
                     <td><?= $user['Phonenumber'] ?></td>
-                    <td><?= $user['Address'] ?></td>
-                    <td><?= $user['lastlogin'] ?></td>
+                    <td><?= $lastLogin ?></td>
                     <td class="text-center">
                       <ul class="table-controls">
-                        <li><a href="?tab=locked&id=<?= $user['ID'] ?>" onclick="return confirm('Are you want to lock?')" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Unlock">
+                        <li><a href onclick="unlockUser(<?= $user['ID'] ?>)" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Unlock">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-unlock p-1 br-6 mb-1">
                               <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                               <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
